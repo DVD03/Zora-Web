@@ -118,7 +118,7 @@ export default function PreloaderLogo() {
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
                 style={{ transformOrigin: 'left center' }}
-                className="gpu-accelerated h-full w-full bg-gradient-to-r from-white via-[#00F0FF] to-amber-400"
+                className="gpu-accelerated h-full w-full bg-sky-400"
               />
             </div>
           </motion.div>
