@@ -9,7 +9,7 @@
 }
 
 html {
-  transition: background-color 0.2s ease, color 0.2s ease;
+  scroll-behavior: smooth;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }

@@ -120,27 +120,25 @@ export default function Hero3DShowcase() {
               />
             </svg>
 
-            {/* 3D Magnetic Interactive Logo Emblem (Floating, Pulsing & Interactive) */}
+            {/* 3D Magnetic Interactive Logo Emblem (Hardware-Accelerated & Smooth) */}
             <motion.div
               ref={emblemRef}
               onMouseMove={handleEmblemMove}
               onMouseLeave={handleEmblemLeave}
-              animate={{ y: [0, -7, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
               style={{
                 rotateX: springTiltX,
                 rotateY: springTiltY,
                 transformStyle: 'preserve-3d',
               }}
-              className="relative z-10 flex h-28 w-28 cursor-pointer items-center justify-center transition-transform hover:scale-105 sm:h-36 sm:w-36 select-none"
+              className="gpu-accelerated relative z-10 flex h-28 w-28 cursor-pointer items-center justify-center transition-transform hover:scale-105 sm:h-36 sm:w-36 select-none"
             >
-              {/* Soft Pulsing Cyber Energy Core behind Emblem */}
-              <div className="pointer-events-none absolute -inset-3 rounded-full bg-sky-500/25 blur-xl animate-pulse" />
+              {/* Hardware-Accelerated Ambient Glow */}
+              <div className="pointer-events-none absolute -inset-2 rounded-full bg-sky-500/20 blur-md" />
 
               <img
                 src="/assets/logo.png"
                 alt="Zora Solutions Emblem"
-                className="relative z-10 h-full w-full object-contain filter drop-shadow-[0_8px_28px_rgba(14,165,233,0.45)]"
+                className="relative z-10 h-full w-full object-contain drop-shadow-[0_4px_12px_rgba(14,165,233,0.3)]"
               />
             </motion.div>
           </div>

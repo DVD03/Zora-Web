@@ -4,12 +4,21 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function PreloaderLogo() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    // Only run on the very first visit in a session so subsequent visits are instant and zero-lag
+    if (typeof window !== 'undefined' && sessionStorage.getItem('zora-visited')) {
+      return;
+    }
+    setIsLoading(true);
+
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 950);
+      try {
+        sessionStorage.setItem('zora-visited', '1');
+      } catch {}
+    }, 600);
 
     return () => clearTimeout(timer);
   }, []);

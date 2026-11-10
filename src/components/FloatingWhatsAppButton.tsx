@@ -106,15 +106,12 @@ export default function FloatingWhatsAppButton() {
       {/* Trigger Floating Action Button */}
       <motion.button
         type="button"
-        whileHover={{ scale: 1.06 }}
-        whileTap={{ scale: 0.94 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen((prev) => !prev)}
         className="relative flex items-center gap-2.5 rounded-full bg-emerald-600 px-4 py-3 text-white shadow-matte-md transition-all hover:bg-emerald-700 hover:shadow-matte-lg"
         aria-label="Direct WhatsApp Contact"
       >
-        {/* Soft Animated Ripple Ring */}
-        <span className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-emerald-500/40 animate-ping opacity-40" />
-
         <MessageCircle className="h-5 w-5" />
         <span className="hidden font-display text-xs font-bold sm:inline">
           {isOpen ? 'Close WhatsApp' : 'Chat With Us'}

@@ -8,7 +8,6 @@ import Navbar from '@/components/Navbar';
 import Hero3DShowcase from '@/components/Hero3DShowcase';
 import Footer from '@/components/Footer';
 import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
-import CursorSpotlight from '@/components/CursorSpotlight';
 import {
   Globe,
   Layers,
@@ -118,9 +117,6 @@ export default function HomePage() {
     <main className="relative min-h-screen bg-[#F8FAFC] text-slate-900 transition-colors duration-200 dark:bg-[#070B14] dark:text-white">
       {/* Initial Cyber-Luxury Cinematic Preloader */}
       <PreloaderLogo />
-
-      {/* Interactive Ambient Cursor Spotlight (Zero Lag) */}
-      <CursorSpotlight />
 
       {/* Sticky Glassmorphic Navbar with Crisp, Full-Color Logo */}
       <Navbar />
