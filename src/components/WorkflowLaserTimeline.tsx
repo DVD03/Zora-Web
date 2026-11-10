@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Lightbulb, Code2, Rocket, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Lightbulb, Code2, Rocket, CheckCircle2, ArrowRight } from 'lucide-react';
 
 interface WorkflowStep {
   number: string;
@@ -80,12 +80,7 @@ export default function WorkflowLaserTimeline() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/45 bg-amber-400/10 px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.22em] text-amber-300">
-            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-            <span>How We Work • 03 Simple Stages</span>
-          </div>
-
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
             From Concept to{' '}
             <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
               Market Leadership

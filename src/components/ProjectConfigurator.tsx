@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Sparkles,
   CheckCircle2,
   PhoneCall,
   MessageCircle,
@@ -25,22 +24,22 @@ const CONNECTION_METHODS = [
   {
     id: 'WhatsApp Text Chat',
     label: 'WhatsApp Chat',
-    sub: 'Fastest reply — instant chat with us',
+    sub: 'Fastest reply — direct message with founders',
   },
   {
     id: 'WhatsApp Voice / Audio Call',
-    label: 'WhatsApp Call',
-    sub: 'Quick voice call to explain your idea',
+    label: 'WhatsApp Voice Call',
+    sub: 'Quick voice consultation to discuss requirements',
   },
   {
     id: 'Direct Phone Call',
-    label: 'Direct Phone Call',
-    sub: 'We will call your mobile number directly',
+    label: 'Direct Mobile Call',
+    sub: 'We will call your direct mobile number',
   },
   {
     id: 'Online Video Meeting (Zoom / Meet)',
-    label: 'Online Video Call',
-    sub: 'Screen-share & discuss requirements together',
+    label: 'Video Screen-Share',
+    sub: 'Architectural walkthrough & live discussion',
   },
 ];
 
@@ -58,178 +57,148 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [inquiryId, setInquiryId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (
-      preselectedService &&
-      (CORE_SERVICES_ENUM as readonly string[]).includes(preselectedService)
-    ) {
-      setSelectedServices((prev) =>
-        prev.includes(preselectedService) ? prev : [...prev, preselectedService]
-      );
-      setSubmittedSuccess(false);
+    if (preselectedService && CORE_SERVICES_ENUM.includes(preselectedService as any)) {
+      setSelectedServices([preselectedService]);
     }
   }, [preselectedService]);
 
   const toggleService = (service: string) => {
-    setSelectedServices((prev) =>
-      prev.includes(service)
-        ? prev.length > 1
-          ? prev.filter((s) => s !== service)
-          : prev
-        : [...prev, service]
-    );
+    setSelectedServices((prev) => {
+      if (prev.includes(service)) {
+        if (prev.length === 1) return prev;
+        return prev.filter((s) => s !== service);
+      } else {
+        return [...prev, service];
+      }
+    });
   };
-
-  // Build formatted WhatsApp Deep-Link Summary Message
-  const buildWhatsAppUrl = (
-    founderPhoneDigits: '94777321165' | '94777498608',
-    founderName: string,
-    overrideRefId?: string
-  ) => {
-    const activeRef = overrideRefId || inquiryId;
-    const lines = [
-      `Hi ${founderName} at *Zora Solutions*!`,
-      ``,
-      `I would like to discuss my project requirements and get a custom price quotation:`,
-      clientName ? `• *Name:* ${clientName}` : null,
-      companyName ? `• *Business / Brand:* ${companyName}` : null,
-      phone ? `• *Phone / WhatsApp:* ${phone}` : null,
-      `• *Services Needed:* ${selectedServices.join(', ')}`,
-      `• *Preferred Way to Connect:* ${connectionMethod}`,
-      projectBrief ? `• *My Requirements:* ${projectBrief}` : null,
-      activeRef ? `• *Ref ID:* ${activeRef}` : null,
-      ``,
-      `Please let me know the next steps and custom pricing!`,
-    ]
-      .filter(Boolean)
-      .join('\n');
-
-    return `https://wa.me/${founderPhoneDigits}?text=${encodeURIComponent(lines)}`;
-  };
-
-  // Determine active founder target based on client selection
-  const targetFounder =
-    preferredContact === 'Dilum'
-      ? { digits: '94777498608' as const, name: 'Dilum' }
-      : { digits: '94777321165' as const, name: 'Panduka' };
 
   const handleSubmitAndOpenWhatsApp = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
 
+    if (honeypot) return;
+
+    if (!clientName.trim()) {
+      setErrorMsg('Please enter your name.');
+      return;
+    }
+    if (!phone.trim()) {
+      setErrorMsg('Please enter your phone or WhatsApp number.');
+      return;
+    }
+    if (!projectBrief.trim()) {
+      setErrorMsg('Please write a brief description of what you need.');
+      return;
+    }
+
     const payload = {
-      clientName,
-      companyName,
-      email: 'whatsapp-lead@zorasolutions.lk',
-      phone,
-      whatsappNumber: phone,
+      clientName: clientName.trim(),
+      companyName: companyName.trim() || undefined,
+      email: `${phone.replace(/\D/g, '') || 'client'}@whatsapp.client`,
+      phone: phone.trim(),
+      whatsappNumber: phone.trim(),
       selectedServices,
-      estimatedBudget: `WhatsApp Quote (${connectionMethod})`,
-      projectBrief,
+      estimatedBudget: `Custom Quote (${connectionMethod})`,
+      projectBrief: `[Preferred Contact: ${connectionMethod}]\n${projectBrief.trim()}`,
       preferredContact,
-      honeypot,
     };
 
     const parsed = InquiryValidationSchema.safeParse(payload);
     if (!parsed.success) {
-      const firstErr = Object.values(parsed.error.flatten().fieldErrors)[0]?.[0];
-      setErrorMsg(firstErr || 'Please fill in your name, phone number, and requirements.');
+      setErrorMsg(parsed.error.errors[0]?.message || 'Please check your inputs.');
       return;
     }
 
     setIsSubmitting(true);
-    let resolvedId = `ZORA-${Date.now().toString().slice(-6)}`;
 
     try {
-      const res = await fetch('/api/inquiries', {
+      await fetch('/api/inquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
-      if (res.ok && data.success && data.inquiryId) {
-        resolvedId = data.inquiryId;
-      }
+      setSubmittedSuccess(true);
+
+      const targetFounder = preferredContact === 'Dilum' ? 'Dilum' : 'Panduka';
+      const targetNumber = targetFounder === 'Dilum' ? '94777498608' : '94777321165';
+
+      const waText = [
+        `*Hello ${targetFounder} (Zora Solutions)*,`,
+        `I would like to discuss a project with you:`,
+        ``,
+        `• *Client Name:* ${clientName.trim()}${companyName.trim() ? ` (${companyName.trim()})` : ''}`,
+        `• *Phone/WhatsApp:* ${phone.trim()}`,
+        `• *Services Needed:* ${selectedServices.join(', ')}`,
+        `• *Preferred Contact:* ${connectionMethod}`,
+        ``,
+        `*Project Brief:*`,
+        projectBrief.trim(),
+        ``,
+        `Looking forward to hearing from you!`,
+      ].join('\n');
+
+      setTimeout(() => {
+        window.open(
+          `https://wa.me/${targetNumber}?text=${encodeURIComponent(waText)}`,
+          '_blank',
+          'noopener,noreferrer'
+        );
+      }, 400);
     } catch {
-      // Even if network is slow, still open WhatsApp with the full pre-filled requirements!
+      setErrorMsg('Could not record your inquiry online, but opening WhatsApp directly...');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setInquiryId(resolvedId);
-    setIsSubmitting(false);
-    setSubmittedSuccess(true);
-
-    const waUrl = buildWhatsAppUrl(targetFounder.digits, targetFounder.name, resolvedId);
-    window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <section id="configurator" className="relative py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-8">
-        {/* Friendly, Crystal-Clear Section Header */}
-        <div className="flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.22em] text-white">
-            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-            <span>Direct WhatsApp Connect • Custom Quotation</span>
-          </div>
-
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Send Your Requirements on{' '}
-            <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
-              WhatsApp Instantly
-            </span>
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-sm text-slate-200 sm:text-base">
-            We don’t use fixed price packages because every business is unique. Tell us what you
-            need below and connect directly with <strong className="text-white">Panduka</strong> or{' '}
-            <strong className="text-white">Dilum</strong> on WhatsApp for a fast custom quote.
-          </p>
-        </div>
-
-        {/* How to Connect With Us — 3 Direct WhatsApp & Call Cards */}
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+    <section id="configurator" className="relative py-12 sm:py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Top 3 Quick-Action Direct Founder Cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <a
-            href="https://wa.me/94777321165?text=Hi%20Panduka%20at%20Zora%20Solutions!%20I%20would%20like%20to%20discuss%20my%20project%20requirements%20and%20get%20a%20custom%20quote."
+            href="https://wa.me/94777321165"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-4 rounded-2xl border border-white bg-white p-4 text-[#0F172A] shadow-lg transition-transform hover:-translate-y-0.5"
+            className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
           >
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#040B1A] text-[#00F0FF]">
-              <MessageCircle className="h-6 w-6" />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
+              <MessageCircle className="h-5 w-5" />
             </div>
             <div>
-              <div className="font-mono text-[11px] font-extrabold uppercase text-[#0051FF]">
-                WHATSAPP • PANDUKA
+              <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                PANDUKA • FASTEST REPLY
               </div>
-              <div className="font-display text-base font-extrabold text-[#040B1A]">
+              <div className="font-display text-sm font-bold text-slate-900 dark:text-white">
                 Chat With Panduka
               </div>
-              <div className="font-mono text-xs font-semibold text-slate-600">
+              <div className="font-mono text-xs text-slate-500 dark:text-slate-400">
                 +94 777 321 165
               </div>
             </div>
           </a>
 
           <a
-            href="https://wa.me/94777498608?text=Hi%20Dilum%20at%20Zora%20Solutions!%20I%20would%20like%20to%20discuss%20my%20project%20requirements%20and%20get%20a%20custom%20quote."
+            href="https://wa.me/94777498608"
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-4 rounded-2xl border border-amber-400/50 bg-[#081226] p-4 text-white shadow-lg transition-transform hover:-translate-y-0.5 hover:border-amber-400"
+            className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
           >
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-400 text-[#030712]">
-              <MessageCircle className="h-6 w-6" />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400">
+              <MessageCircle className="h-5 w-5" />
             </div>
             <div>
-              <div className="font-mono text-[11px] font-bold uppercase text-amber-300">
-                WHATSAPP • DILUM
+              <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                DILUM • TECHNICAL CO-FOUNDER
               </div>
-              <div className="font-display text-base font-bold text-white">
+              <div className="font-display text-sm font-bold text-slate-900 dark:text-white">
                 Chat With Dilum
               </div>
-              <div className="font-mono text-xs font-semibold text-slate-300">
+              <div className="font-mono text-xs text-slate-500 dark:text-slate-400">
                 +94 77 749 8608
               </div>
             </div>
@@ -237,44 +206,37 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
 
           <a
             href="tel:+94777321165"
-            className="group flex items-center gap-4 rounded-2xl border border-white/20 bg-[#081226] p-4 text-white shadow-lg transition-transform hover:-translate-y-0.5 hover:border-[#00F0FF]"
+            className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
           >
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[#00F0FF]">
-              <PhoneCall className="h-6 w-6" />
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-950/50 dark:text-sky-400">
+              <PhoneCall className="h-5 w-5" />
             </div>
             <div>
-              <div className="font-mono text-[11px] font-bold uppercase text-[#00F0FF]">
-                DIRECT PHONE CALL
+              <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+                DIRECT VOICE LINE
               </div>
-              <div className="font-display text-base font-bold text-white">
+              <div className="font-display text-sm font-bold text-slate-900 dark:text-white">
                 Call Us Directly
               </div>
-              <div className="text-xs text-slate-300">
-                Speak with Panduka or Dilum now
+              <div className="text-xs text-slate-500 dark:text-slate-400">
+                Panduka: 0777 321 165
               </div>
             </div>
           </a>
         </div>
 
-        {/* Main Grid: 8-Col Simple Requirement Form + 4-Col Direct Founders Hub */}
-        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12">
-          {/* LEFT 8 COLS: WhatsApp-First Client Requirements Form */}
-          <div className="rounded-3xl border border-white/25 bg-gradient-to-b from-[#091326] to-[#030712] p-6 shadow-2xl sm:p-10 lg:col-span-8">
+        {/* Main Grid: Form + Founders Overview */}
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
+          {/* Form */}
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark lg:col-span-8">
             <AnimatePresence mode="wait">
               {!submittedSuccess ? (
-                <motion.form
-                  key="requirements-form"
-                  onSubmit={handleSubmitAndOpenWhatsApp}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="space-y-7"
-                >
-                  {/* Hidden Honeypot Trap */}
+                <form onSubmit={handleSubmitAndOpenWhatsApp} className="space-y-6">
+                  {/* Honeypot */}
                   <div className="hidden" aria-hidden="true">
                     <input
                       type="text"
-                      name="website_url_honeypot"
+                      name="url_honeypot"
                       tabIndex={-1}
                       autoComplete="off"
                       value={honeypot}
@@ -283,22 +245,19 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                   </div>
 
                   {errorMsg && (
-                    <div className="flex items-center gap-2.5 rounded-2xl border border-rose-500/40 bg-rose-500/10 p-4 text-xs text-rose-300">
-                      <AlertCircle className="h-4 w-4 shrink-0 text-rose-400" />
+                    <div className="flex items-center gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-300">
+                      <AlertCircle className="h-4 w-4 shrink-0 text-rose-600 dark:text-rose-400" />
                       <span>{errorMsg}</span>
                     </div>
                   )}
 
-                  {/* Part 1: Select Services Needed */}
+                  {/* 1. Services */}
                   <div>
-                    <label className="font-display text-lg font-bold text-white">
-                      1. What services do you need?{' '}
-                      <span className="font-mono text-xs font-bold text-amber-300">
-                        (Select one or more)
-                      </span>
+                    <label className="font-display text-base font-bold text-slate-900 dark:text-white">
+                      1. Select the service(s) you require:
                     </label>
 
-                    <div className="mt-3.5 flex flex-wrap gap-2.5">
+                    <div className="mt-3 flex flex-wrap gap-2">
                       {CORE_SERVICES_ENUM.map((service) => {
                         const isSelected = selectedServices.includes(service);
                         return (
@@ -306,17 +265,17 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                             key={service}
                             type="button"
                             onClick={() => toggleService(service)}
-                            className={`flex items-center gap-2.5 rounded-2xl border px-4 py-3 font-display text-sm font-bold transition-colors ${
+                            className={`flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-semibold transition-all ${
                               isSelected
-                                ? 'border-white bg-white text-[#030712] shadow-md'
-                                : 'border-white/15 bg-white/5 text-slate-200 hover:border-amber-400/50 hover:text-white'
+                                ? 'border-sky-600 bg-sky-50 text-sky-800 dark:border-sky-500 dark:bg-sky-950/40 dark:text-sky-300'
+                                : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-700'
                             }`}
                           >
                             <span
-                              className={`flex h-5 w-5 items-center justify-center rounded-md border text-xs ${
+                              className={`flex h-3.5 w-3.5 items-center justify-center rounded border text-[9px] font-bold ${
                                 isSelected
-                                  ? 'border-[#0051FF] bg-[#0051FF] text-white font-bold'
-                                  : 'border-white/30 bg-transparent'
+                                  ? 'border-sky-600 bg-sky-600 text-white dark:border-sky-400 dark:bg-sky-400 dark:text-slate-950'
+                                  : 'border-slate-300 dark:border-slate-600'
                               }`}
                             >
                               {isSelected ? '✓' : ''}
@@ -328,16 +287,13 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                     </div>
                   </div>
 
-                  {/* Part 2: Preferred Connection Method */}
+                  {/* 2. Connection Method */}
                   <div>
-                    <label className="block font-display text-lg font-bold text-white">
-                      2. How would you like us to discuss your quote?
+                    <label className="block font-display text-base font-bold text-slate-900 dark:text-white">
+                      2. Preferred communication channel:
                     </label>
-                    <p className="mt-1 text-xs text-slate-300">
-                      Pick your preferred way to talk—we reply fastest on WhatsApp:
-                    </p>
 
-                    <div className="mt-3.5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                       {CONNECTION_METHODS.map((method) => {
                         const active = connectionMethod === method.id;
                         return (
@@ -345,20 +301,16 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                             key={method.id}
                             type="button"
                             onClick={() => setConnectionMethod(method.id)}
-                            className={`rounded-2xl border p-3.5 text-left transition-colors ${
+                            className={`rounded-xl border p-3 text-left transition-all ${
                               active
-                                ? 'border-amber-400 bg-amber-400 text-[#030712] shadow-lg'
-                                : 'border-white/15 bg-white/5 text-white hover:border-white/35'
+                                ? 'border-sky-600 bg-sky-50 dark:border-sky-500 dark:bg-sky-950/40'
+                                : 'border-slate-200 bg-slate-50 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700'
                             }`}
                           >
-                            <div className="font-display text-sm font-extrabold">
+                            <div className="font-display text-xs font-bold text-slate-900 dark:text-white">
                               {method.label}
                             </div>
-                            <div
-                              className={`mt-0.5 text-xs ${
-                                active ? 'text-slate-900 font-medium' : 'text-slate-300'
-                              }`}
-                            >
+                            <div className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">
                               {method.sub}
                             </div>
                           </button>
@@ -367,15 +319,15 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                     </div>
                   </div>
 
-                  {/* Part 3: Client Details & Requirement Description */}
-                  <div className="space-y-4 border-t border-white/15 pt-5">
-                    <label className="block font-display text-lg font-bold text-white">
-                      3. Your Details & Project Requirements
+                  {/* 3. Inputs */}
+                  <div className="space-y-4 border-t border-slate-100 pt-5 dark:border-slate-800">
+                    <label className="block font-display text-base font-bold text-slate-900 dark:text-white">
+                      3. Your details &amp; project brief:
                     </label>
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <div>
-                        <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
+                        <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                           Your Name *
                         </label>
                         <input
@@ -384,12 +336,12 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                           value={clientName}
                           onChange={(e) => setClientName(e.target.value)}
                           placeholder="e.g. Kasun Perera"
-                          className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] px-4 py-3 text-sm text-white placeholder-slate-400 focus:border-white focus:outline-none"
+                          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                         />
                       </div>
 
                       <div>
-                        <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
+                        <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                           Phone / WhatsApp Number *
                         </label>
                         <input
@@ -398,37 +350,37 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="e.g. 077 123 4567"
-                          className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] px-4 py-3 text-sm text-white placeholder-slate-400 focus:border-white focus:outline-none"
+                          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <div>
-                        <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
-                          Business / Shop Name (Optional)
+                        <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
+                          Company / Brand (Optional)
                         </label>
                         <input
                           type="text"
                           value={companyName}
                           onChange={(e) => setCompanyName(e.target.value)}
-                          placeholder="Your Company or Brand"
-                          className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] px-4 py-3 text-sm text-white placeholder-slate-400 focus:border-white focus:outline-none"
+                          placeholder="e.g. Ceylon Logistics"
+                          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                         />
                       </div>
 
                       <div>
-                        <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
-                          Who Should You Message?
+                        <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
+                          Target Founder
                         </label>
                         <select
                           value={preferredContact}
                           onChange={(e) =>
                             setPreferredContact(e.target.value as 'Panduka' | 'Dilum' | 'Any')
                           }
-                          className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] px-4 py-3 text-sm text-white focus:border-white focus:outline-none"
+                          className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                         >
-                          <option value="Any">Either Founder (Fastest — Panduka)</option>
+                          <option value="Any">Panduka (General &amp; Fast Consultation)</option>
                           <option value="Panduka">Panduka (+94 777 321 165)</option>
                           <option value="Dilum">Dilum (+94 77 749 8608)</option>
                         </select>
@@ -436,8 +388,8 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                     </div>
 
                     <div>
-                      <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
-                        Tell Us About Your Idea or Requirements *
+                      <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
+                        Project Brief / Idea Description *
                       </label>
                       <textarea
                         required
@@ -445,255 +397,108 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                         maxLength={3000}
                         value={projectBrief}
                         onChange={(e) => setProjectBrief(e.target.value)}
-                        placeholder="Describe what kind of website, online store, or software you need. We will review this on WhatsApp and give you a custom price..."
-                        className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] p-4 text-sm text-white placeholder-slate-400 focus:border-white focus:outline-none"
+                        placeholder="Briefly describe what kind of website, application, or custom software you are looking to build..."
+                        className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                       />
                     </div>
                   </div>
 
-                  {/* Direct Instant WhatsApp Action Buttons */}
-                  <div className="flex flex-col gap-3 border-t border-white/15 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                    <a
-                      href={buildWhatsAppUrl(targetFounder.digits, targetFounder.name)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-2xl border border-amber-400 bg-amber-400/15 px-5 py-3.5 font-display text-xs font-extrabold uppercase tracking-wider text-amber-300 transition-colors hover:bg-amber-400 hover:text-[#030712]"
-                    >
-                      <MessageCircle className="h-4 w-4" />
-                      <span>Quick WhatsApp ({targetFounder.name})</span>
-                    </a>
-
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="inline-flex items-center justify-center gap-2.5 rounded-2xl bg-white px-8 py-4 font-display text-sm font-extrabold text-[#030712] shadow-lg transition-colors hover:bg-[#00F0FF] disabled:opacity-60"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                          <span>Opening WhatsApp...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send className="h-4 w-4" />
-                          <span>Send on WhatsApp & Get Custom Price</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </motion.form>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-sky-600 px-6 py-3.5 font-display text-xs font-bold text-white shadow-sm transition-colors hover:bg-sky-700 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400 disabled:opacity-60"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        <span>Sending Inquiry...</span>
+                      </>
+                    ) : (
+                      <>
+                        <MessageCircle className="h-4 w-4" />
+                        <span>Submit &amp; Open WhatsApp Conversation</span>
+                      </>
+                    )}
+                  </button>
+                </form>
               ) : (
-                /* Confirmation View + Direct Panduka / Dilum WhatsApp & Call Launchers */
-                <motion.div
-                  key="step-success"
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="space-y-6 text-center py-6"
-                >
-                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-[#030712] shadow-xl">
-                    <CheckCircle2 className="h-9 w-9 text-[#0051FF]" />
+                <div className="py-12 text-center">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
+                    <CheckCircle2 className="h-8 w-8" />
                   </div>
-
-                  <div>
-                    <span className="rounded-full border border-amber-400/50 bg-amber-400/15 px-3.5 py-1 font-mono text-xs font-bold text-amber-300">
-                      REQUIREMENTS SAVED • REF: {inquiryId}
-                    </span>
-                    <h3 className="mt-4 font-display text-2xl font-extrabold text-white sm:text-3xl">
-                      Ready to Chat on WhatsApp!
-                    </h3>
-                    <p className="mx-auto mt-2 max-w-xl text-sm text-slate-200">
-                      Your project requirements have been saved with our team. If WhatsApp did not
-                      open automatically, click below to message{' '}
-                      <strong className="text-white">Panduka</strong> or{' '}
-                      <strong className="text-amber-300">Dilum</strong> right now with your details
-                      already filled in:
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-left">
-                    {/* Panduka Card */}
-                    <div className="rounded-2xl border border-white bg-white p-5 text-[#0F172A] shadow-xl">
-                      <div className="flex items-center justify-between">
-                        <span className="font-display text-lg font-extrabold text-[#040B1A]">
-                          Panduka
-                        </span>
-                        <span className="rounded-md bg-[#040B1A] px-2.5 py-0.5 font-mono text-[11px] font-bold text-white">
-                          Co-Founder
-                        </span>
-                      </div>
-                      <p className="mt-1 font-mono text-sm font-bold text-[#0051FF]">
-                        +94 777 321 165
-                      </p>
-                      <div className="mt-4 flex flex-col gap-2">
-                        <a
-                          href={buildWhatsAppUrl('94777321165', 'Panduka')}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 rounded-xl bg-[#040B1A] px-4 py-3 font-display text-xs font-bold uppercase tracking-wider text-white transition-transform hover:scale-[1.02]"
-                        >
-                          <MessageCircle className="h-4 w-4 text-[#00F0FF]" />
-                          <span>WhatsApp Panduka Now</span>
-                        </a>
-                        <a
-                          href="tel:+94777321165"
-                          className="flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-slate-100 px-4 py-2.5 font-mono text-xs font-bold text-[#040B1A] hover:bg-slate-200"
-                        >
-                          <PhoneCall className="h-3.5 w-3.5 text-[#0051FF]" />
-                          <span>Call +94 777 321 165</span>
-                        </a>
-                      </div>
-                    </div>
-
-                    {/* Dilum Card */}
-                    <div className="rounded-2xl border border-amber-400/50 bg-[#02050D] p-5 text-white shadow-xl">
-                      <div className="flex items-center justify-between">
-                        <span className="font-display text-lg font-extrabold text-white">
-                          Dilum
-                        </span>
-                        <span className="rounded-md bg-amber-400 px-2.5 py-0.5 font-mono text-[11px] font-bold text-[#030712]">
-                          Co-Founder
-                        </span>
-                      </div>
-                      <p className="mt-1 font-mono text-sm font-bold text-amber-300">
-                        +94 77 749 8608
-                      </p>
-                      <div className="mt-4 flex flex-col gap-2">
-                        <a
-                          href={buildWhatsAppUrl('94777498608', 'Dilum')}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 rounded-xl bg-amber-400 px-4 py-3 font-display text-xs font-extrabold uppercase tracking-wider text-[#030712] transition-transform hover:scale-[1.02]"
-                        >
-                          <MessageCircle className="h-4 w-4" />
-                          <span>WhatsApp Dilum Now</span>
-                        </a>
-                        <a
-                          href="tel:+94777498608"
-                          className="flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 font-mono text-xs font-bold text-white hover:bg-white hover:text-[#030712]"
-                        >
-                          <PhoneCall className="h-3.5 w-3.5 text-amber-400" />
-                          <span>Call +94 77 749 8608</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
+                  <h3 className="mt-4 font-display text-2xl font-bold text-slate-900 dark:text-white">
+                    Inquiry Received!
+                  </h3>
+                  <p className="mx-auto mt-2 max-w-md text-sm text-slate-600 dark:text-slate-300">
+                    We have logged your project brief in our system. A WhatsApp window was opened so you can
+                    speak directly with our founders.
+                  </p>
                   <button
                     type="button"
-                    onClick={() => {
-                      setSubmittedSuccess(false);
-                      setProjectBrief('');
-                    }}
-                    className="font-mono text-xs text-slate-300 underline hover:text-white"
+                    onClick={() => setSubmittedSuccess(false)}
+                    className="mt-6 rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 font-mono text-xs font-semibold text-slate-700 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                   >
-                    Send another project requirement
+                    Submit Another Inquiry
                   </button>
-                </motion.div>
+                </div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* RIGHT 4 COLS: Always-Visible Direct Founder Cards + How Our Pricing Works */}
-          <div className="flex flex-col justify-between gap-6 lg:col-span-4">
-            {/* Reassuring "How Pricing Works" Card */}
-            <div className="rounded-3xl border border-amber-400/45 bg-gradient-to-b from-amber-400/15 to-[#060D1F] p-6 text-white">
-              <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase text-amber-300">
-                <HelpCircle className="h-4 w-4" />
-                <span>How We Give You a Price</span>
-              </div>
-              <h3 className="mt-2 font-display text-lg font-extrabold text-white">
-                100% Custom Quotation on WhatsApp
-              </h3>
-              <p className="mt-2 text-xs leading-relaxed text-slate-200">
-                You never have to guess which package fits you. Simply share your requirements or
-                message us directly on WhatsApp—we will guide you and give you a fair custom price.
-              </p>
-              <div className="mt-3 flex items-center gap-2 font-mono text-[11px] text-amber-300">
-                <Clock className="h-3.5 w-3.5" />
-                <span>Fast Direct Reply</span>
-              </div>
-              <a
-                href="mailto:zorasolution.official@gmail.com"
-                className="mt-3 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3 py-2 font-mono text-xs font-bold text-[#00F0FF] transition-colors hover:bg-white hover:text-[#030712]"
-              >
-                <Mail className="h-3.5 w-3.5" />
-                <span>zorasolution.official@gmail.com</span>
-              </a>
-            </div>
-
-            {/* Panduka Direct Card — Crisp Pearl-White Surface */}
-            <div className="rounded-3xl border border-white bg-gradient-to-br from-white via-[#F8FAFC] to-[#E2E8F0] p-6 text-[#0F172A] shadow-xl">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#040B1A] text-[#00F0FF]">
-                  <UserCheck className="h-5 w-5" />
+          {/* Right 4 Cols: Trust & SLA Sidebar */}
+          <div className="space-y-6 lg:col-span-4">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+              <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200">
+                Response Guarantee
+              </h4>
+              <div className="mt-4 space-y-3.5 text-xs text-slate-600 dark:text-slate-300">
+                <div className="flex items-start gap-2.5">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                  <div>
+                    <strong className="text-slate-900 dark:text-white">Under 2 Hours SLA</strong>
+                    <p className="mt-0.5 text-slate-500 dark:text-slate-400">
+                      We respond to all WhatsApp inquiries within 2 hours during active business hours.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-display text-lg font-extrabold text-[#040B1A]">Panduka</h3>
-                  <p className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#0051FF]">
-                    WhatsApp or Call Anytime
-                  </p>
+
+                <div className="flex items-start gap-2.5">
+                  <UserCheck className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
+                  <div>
+                    <strong className="text-slate-900 dark:text-white">Direct Technical Founders</strong>
+                    <p className="mt-0.5 text-slate-500 dark:text-slate-400">
+                      Your brief is reviewed directly by Panduka or Dilum, not external sales representatives.
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="mt-4 rounded-xl bg-[#040B1A] px-4 py-2.5 font-mono text-base font-bold text-white">
-                +94 777 321 165
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 gap-2.5">
-                <a
-                  href="tel:+94777321165"
-                  className="flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white py-3 font-mono text-xs font-extrabold text-[#040B1A] transition-colors hover:bg-slate-100"
-                >
-                  <PhoneCall className="h-3.5 w-3.5 text-[#0051FF]" />
-                  <span>Call Now</span>
-                </a>
-                <a
-                  href={buildWhatsAppUrl('94777321165', 'Panduka')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 rounded-xl bg-[#0051FF] py-3 font-mono text-xs font-extrabold text-white shadow-md transition-transform hover:scale-[1.02]"
-                >
-                  <MessageCircle className="h-3.5 w-3.5" />
-                  <span>WhatsApp</span>
-                </a>
+                <div className="flex items-start gap-2.5">
+                  <HelpCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                  <div>
+                    <strong className="text-slate-900 dark:text-white">Free Architecture Blueprint</strong>
+                    <p className="mt-0.5 text-slate-500 dark:text-slate-400">
+                      We provide initial stack recommendations and high-level milestones at zero commitment.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Dilum Direct Card — Solar Gold & Obsidian Surface */}
-            <div className="rounded-3xl border border-amber-400/50 bg-gradient-to-b from-[#0A152C] to-[#030712] p-6 text-white shadow-xl">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-amber-400/40 bg-amber-400/15 text-amber-300">
-                  <UserCheck className="h-5 w-5" />
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+              <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200">
+                Official Channels
+              </h4>
+              <div className="mt-3 space-y-2 text-xs">
+                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                  <Mail className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
+                  <a href="mailto:zorasolution.official@gmail.com" className="hover:underline">
+                    zorasolution.official@gmail.com
+                  </a>
                 </div>
-                <div>
-                  <h3 className="font-display text-lg font-extrabold text-white">Dilum</h3>
-                  <p className="font-mono text-[11px] font-bold uppercase tracking-wider text-amber-300">
-                    WhatsApp or Call Anytime
-                  </p>
+                <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
+                  <PhoneCall className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
+                  <span>+94 777 321 165 / +94 77 749 8608</span>
                 </div>
-              </div>
-
-              <div className="mt-4 rounded-xl border border-white/15 bg-[#02050D] px-4 py-2.5 font-mono text-base font-bold text-white">
-                +94 77 749 8608
-              </div>
-
-              <div className="mt-4 grid grid-cols-2 gap-2.5">
-                <a
-                  href="tel:+94777498608"
-                  className="flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 py-3 font-mono text-xs font-bold text-white transition-colors hover:bg-white hover:text-[#030712]"
-                >
-                  <PhoneCall className="h-3.5 w-3.5 text-amber-400" />
-                  <span>Call Now</span>
-                </a>
-                <a
-                  href={buildWhatsAppUrl('94777498608', 'Dilum')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 rounded-xl bg-amber-400 py-3 font-mono text-xs font-extrabold text-[#030712] shadow-lg transition-transform hover:scale-[1.02]"
-                >
-                  <MessageCircle className="h-3.5 w-3.5" />
-                  <span>WhatsApp</span>
-                </a>
               </div>
             </div>
           </div>

@@ -11,9 +11,9 @@ import {
   CheckCircle2,
   AlertTriangle,
   Loader2,
-  Sparkles,
   User,
   ArrowUpRight,
+  Layers,
 } from 'lucide-react';
 import { generateOfficialQuotationPdf } from '@/lib/generateQuotationPdf';
 import type { QuotationLineItem } from '@/models/Quotation';
@@ -58,55 +58,67 @@ const PRIMARY_SERVICES = [
 const SYSTEM_ADDONS = [
   {
     id: 'cms',
-    name: 'Full Admin CMS Dashboard & Database Integration',
+    name: 'Admin Dashboard / CMS (Edit Content & Media Independently)',
     price: 15000,
-    weeks: 1,
+    category: 'System / Web Development',
   },
   {
     id: 'ecommerce',
-    name: 'E-Commerce Cart & Local Payment Gateway Integration (PayHere / WebXPay)',
-    price: 25000,
-    weeks: 2,
+    name: 'E-Commerce Cart + Payment Gateway (PayHere / WebXPay / IPG)',
+    price: 20000,
+    category: 'System / Web Development',
   },
   {
     id: 'enterpriseAuth',
-    name: 'Custom Enterprise Role-Based Auth & Reporting Engine',
-    price: 20000,
-    weeks: 2,
+    name: 'Role-Based Authentication, Audit Logs & Multi-User Permissions',
+    price: 18000,
+    category: 'Custom Software Solutions',
+  },
+  {
+    id: 'customApi',
+    name: 'Custom REST API / Webhooks & Third-Party ERP/CRM Sync',
+    price: 18000,
+    category: 'Custom Software Solutions',
   },
   {
     id: 'figma',
-    name: 'Custom UI/UX Figma Prototype & Design System',
+    name: 'Interactive High-Fidelity Figma Prototype System (30% Milestone)',
     price: 12000,
-    weeks: 1,
+    category: 'UI/UX Design',
+  },
+  {
+    id: 'multiLanguage',
+    name: 'Sinhala / Tamil / English Multi-Language Localization System',
+    price: 10000,
+    category: 'System / Web Development',
   },
 ] as const;
 
 const HOSTING_OPTIONS = [
   {
     id: 'primary-subdomain',
-    name: 'Option A — Primary Hosting (Standard Tier)',
-    label: 'Primary Hosting with Subdomain (e.g., yourcompanyname.netlify.app)',
-    detail: 'Fast global CDN deployment, SSL included',
-    price: 8000,
+    name: 'Option A — Subdomain Hosting (yourname.zorasolution.com)',
+    label: 'Ideal for fast testing & launch without purchasing a separate domain',
+    detail: 'Lifetime Free Hosting on our dedicated high-speed edge cloud',
+    price: 0,
     usdSubject: false,
-    badge: 'RECOMMENDED STARTER',
+    badge: '100% FREE',
   },
   {
     id: 'custom-domain-cloud',
     name: 'Option B — Custom Domain (.com / .lk) + Dedicated Cloud Hosting',
-    label: 'Custom Domain (.com / .lk) + Dedicated Cloud Hosting (Rs. 25,000+ Yearly)',
-    detail: 'Full custom domain registration & dedicated high-speed cloud server',
+    label: 'Annual Cloud Provisioning + Automated SSL & Security Updates',
+    detail: 'Approx. Rs. 25,000 / year (Subject to prevailing USD exchange rate)',
     price: 25000,
     pricePrefix: '+',
     usdSubject: true,
-    badge: 'Subject to USD ($) Exchange Rate',
+    badge: 'USD ($) Market Rate',
   },
   {
     id: 'client-owned',
     name: 'Option C — Client Already Has Hosting / Domain',
-    label: 'Existing Client Hosting / Domain (Deployment Support Only)',
-    detail: 'We deploy directly onto your existing hosting account',
+    label: 'Existing Client Infrastructure (Deployment Support Included)',
+    detail: 'We configure and deploy directly onto your own cloud environment',
     price: 0,
     usdSubject: false,
     badge: 'NO HOSTING FEE',
@@ -153,192 +165,164 @@ export default function QuotationBuilder() {
     );
   };
 
-  // Real-time itemized calculation (System / Web Development + Hosting)
+  // Real-time calculation
   const { itemizedLines, oneTimeTotal, monthlyTotal, estimatedWeeks, selectedHosting } = useMemo(() => {
     const items: QuotationLineItem[] = [
       {
         name: 'Starter System / Corporate Web App (Responsive UI, up to 5 core pages, contact integration, basic SEO)',
-        category: 'System & Web Development',
-        billingType: 'One-Time',
+        category: 'System / Web Development',
         price: 35000,
+        billingType: 'One-Time',
       },
     ];
+
+    let oneTimeSum = 35000;
+    const monthlySum = 0;
     let weeks = 2;
 
     if (extraPages > 0) {
+      const extraCost = extraPages * 4500;
       items.push({
-        name: `Extra Dynamic Pages / Modules (${extraPages} ${extraPages === 1 ? 'page' : 'pages'} @ Rs. 4,500)`,
-        category: 'System & Web Development',
+        name: `Additional Dynamic Pages (${extraPages} pages @ Rs. 4,500/page)`,
+        category: 'System / Web Development',
+        price: extraCost,
         billingType: 'One-Time',
-        price: extraPages * 4500,
       });
+      oneTimeSum += extraCost;
       weeks += Math.ceil(extraPages / 4);
     }
 
-    SYSTEM_ADDONS.forEach((addon) => {
-      if (selectedSystemAddons.includes(addon.id)) {
+    selectedSystemAddons.forEach((addonId) => {
+      const found = SYSTEM_ADDONS.find((a) => a.id === addonId);
+      if (found) {
         items.push({
-          name: addon.name,
-          category: 'Development Add-on',
+          name: found.name,
+          category: found.category,
+          price: found.price,
           billingType: 'One-Time',
-          price: addon.price,
         });
-        weeks += addon.weeks;
+        oneTimeSum += found.price;
+        weeks += 0.5;
       }
     });
 
-    const hosting =
-      HOSTING_OPTIONS.find((h) => h.id === hostingTierId) || HOSTING_OPTIONS[0];
-    items.push({
-      name: hosting.label,
-      category: 'Hosting & Domain',
-      billingType: 'One-Time',
-      price: hosting.price,
-    });
-
-    const oneTime = items
-      .filter((i) => i.billingType === 'One-Time')
-      .reduce((sum, i) => sum + i.price, 0);
+    const host = HOSTING_OPTIONS.find((h) => h.id === hostingTierId) || HOSTING_OPTIONS[0];
+    if (host.price > 0) {
+      items.push({
+        name: `Dedicated Cloud Hosting & Domain Tier: ${host.name}`,
+        category: 'Cloud Hosting & Domain',
+        price: host.price,
+        billingType: 'One-Time',
+      });
+      oneTimeSum += host.price;
+    } else {
+      items.push({
+        name: `Cloud Deployment Tier: ${host.name}`,
+        category: 'Cloud Hosting & Domain',
+        price: 0,
+        billingType: 'One-Time',
+      });
+    }
 
     return {
       itemizedLines: items,
-      oneTimeTotal: oneTime,
-      monthlyTotal: 0,
-      estimatedWeeks: weeks,
-      selectedHosting: hosting,
+      oneTimeTotal: oneTimeSum,
+      monthlyTotal: monthlySum,
+      estimatedWeeks: Math.ceil(weeks),
+      selectedHosting: host,
     };
   }, [extraPages, selectedSystemAddons, hostingTierId]);
 
-  const validateClientDetails = (): string | null => {
-    if (clientName.trim().length < 2) {
-      return 'Please enter your Name in Step 3 before generating the official quotation.';
-    }
-    if (phone.trim().length < 7) {
-      return 'Please enter a valid Phone / WhatsApp Number in Step 3.';
-    }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email.trim())) {
-      return 'Please enter a valid Email Address in Step 3 for your official PDF header.';
-    }
-    return null;
-  };
-
-  const handleSaveAndDownloadPdf = async () => {
-    setFeedbackError(null);
-    const validationErr = validateClientDetails();
-    if (validationErr) {
-      setFeedbackError(validationErr);
-      return;
+  const saveQuotationToDatabase = async (): Promise<{ quoteNumber: string } | null> => {
+    if (!clientName.trim() || !phone.trim() || !email.trim()) {
+      setFeedbackError('Please enter your Name, Phone Number, and Email before proceeding.');
+      return null;
     }
 
-    setBusyAction('pdf');
     try {
+      const payload = {
+        clientName: clientName.trim(),
+        companyName: companyName.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        notes: notes.trim(),
+        primaryService,
+        selectedItems: itemizedLines,
+        hostingTier: selectedHosting.name,
+        oneTimeTotal,
+        monthlyTotal,
+        estimatedWeeks,
+        usdRateNoteAccepted: true,
+      };
+
       const res = await fetch('/api/quotations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          clientName: clientName.trim(),
-          companyName: companyName.trim(),
-          email: email.trim(),
-          phone: phone.trim(),
-          notes: notes.trim(),
-          primaryService,
-          selectedItems: itemizedLines,
-          hostingTier: selectedHosting.label,
-          oneTimeTotal,
-          monthlyTotal,
-          estimatedWeeks,
-          usdRateNoteAccepted: true,
-          status: 'Generated',
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
-      if (!res.ok || !data.success || !data.quotation) {
-        setFeedbackError(data.error || 'Could not save quotation. Please check your details.');
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'Failed to save quotation.');
+      }
+
+      setFeedbackError(null);
+      setLastQuoteNumber(data.quotation.quoteNumber);
+      return { quoteNumber: data.quotation.quoteNumber };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Network error.';
+      setFeedbackError(`Could not record quotation: ${msg}. Downloading local PDF copy anyway.`);
+      return { quoteNumber: `ZORA-OFFLINE-${Date.now().toString().slice(-4)}` };
+    }
+  };
+
+  const handleSaveAndDownloadPdf = async () => {
+    setBusyAction('pdf');
+    try {
+      const record = await saveQuotationToDatabase();
+      if (!record) {
         setBusyAction(null);
         return;
       }
 
-      const savedQuote = data.quotation;
-      setLastQuoteNumber(savedQuote.quoteNumber);
-
       await generateOfficialQuotationPdf({
-        quoteNumber: savedQuote.quoteNumber,
-        clientName: savedQuote.clientName,
-        companyName: savedQuote.companyName,
-        email: savedQuote.email,
-        phone: savedQuote.phone,
-        notes: savedQuote.notes,
-        hostingTier: savedQuote.hostingTier,
-        selectedItems: savedQuote.selectedItems,
-        oneTimeTotal: savedQuote.oneTimeTotal,
-        monthlyTotal: savedQuote.monthlyTotal,
-        estimatedWeeks: savedQuote.estimatedWeeks,
+        quoteNumber: record.quoteNumber,
+        clientName: clientName.trim(),
+        companyName: companyName.trim() || undefined,
+        email: email.trim(),
+        phone: phone.trim(),
+        notes: notes.trim() || undefined,
+        hostingTier: selectedHosting.name,
+        selectedItems: itemizedLines,
+        oneTimeTotal,
+        monthlyTotal,
+        estimatedWeeks,
       });
     } catch {
-      setFeedbackError('Network error while saving quotation. Please try again.');
+      setFeedbackError('Failed to generate PDF. Please ensure all popups are enabled.');
     } finally {
       setBusyAction(null);
     }
   };
 
   const handleSendWhatsApp = async (founder: 'Panduka' | 'Dilum') => {
-    setFeedbackError(null);
-    const validationErr = validateClientDetails();
-    if (validationErr) {
-      setFeedbackError(validationErr);
+    if (!clientName.trim() || !phone.trim()) {
+      setFeedbackError('Please enter at least your Name and Phone Number before contacting on WhatsApp.');
       return;
     }
 
-    setBusyAction('whatsapp');
-    let quoteNumber = lastQuoteNumber || `#ZS-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-
-    try {
-      const res = await fetch('/api/quotations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          clientName: clientName.trim(),
-          companyName: companyName.trim(),
-          email: email.trim(),
-          phone: phone.trim(),
-          notes: notes.trim(),
-          primaryService,
-          selectedItems: itemizedLines,
-          hostingTier: selectedHosting.label,
-          oneTimeTotal,
-          monthlyTotal,
-          estimatedWeeks,
-          usdRateNoteAccepted: true,
-          status: 'Sent_WhatsApp',
-        }),
-      });
-      const data = await res.json();
-      if (res.ok && data.success && data.quotation?.quoteNumber) {
-        quoteNumber = data.quotation.quoteNumber;
-        setLastQuoteNumber(quoteNumber);
-      }
-    } catch {
-      // Proceed to open WhatsApp even if save request fails
-    } finally {
-      setBusyAction(null);
-    }
-
-    const digits = founder === 'Dilum' ? '94777498608' : '94777321165';
+    const digits = founder === 'Panduka' ? '94777321165' : '94777498608';
     const itemSummary = itemizedLines
-      .map(
-        (i, idx) =>
-          `${idx + 1}. ${i.name} — ${formatLkr(i.price)}${i.billingType === 'Monthly' ? '/mo' : ''}`
-      )
+      .slice(0, 4)
+      .map((it) => `• ${it.name} (${formatLkr(it.price)})`)
       .join('\n');
 
     const waLines = [
-      `Hi ${founder} at *Zora Solutions*!`,
-      `I built an instant quotation estimate (${quoteNumber}):`,
+      `*Hello ${founder} (Zora Solutions)*,`,
+      `I have built an instant project quotation on your website:`,
       ``,
       `• *Client:* ${clientName}${companyName ? ` (${companyName})` : ''}`,
-      `• *Phone:* ${phone} | *Email:* ${email}`,
+      `• *Phone:* ${phone} | *Email:* ${email || 'N/A'}`,
       `• *Primary Focus:* ${primaryService}`,
       ``,
       `*Selected Breakdown:*`,
@@ -347,7 +331,7 @@ export default function QuotationBuilder() {
       `• *Estimated Base Total:* ${formatLkr(oneTimeTotal)}${hostingTierId === 'custom-domain-cloud' ? '+' : ''}`,
       notes ? `• *Notes:* ${notes}` : null,
       ``,
-      `Please confirm the final timeline and official invoice details!`,
+      `Please confirm the final timeline and next steps!`,
     ]
       .filter(Boolean)
       .join('\n');
@@ -360,55 +344,34 @@ export default function QuotationBuilder() {
   };
 
   return (
-    <section id="quote-builder" className="relative py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-8">
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#00F0FF]/50 bg-[#040914] px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#00F0FF]">
-            <Calculator className="h-3.5 w-3.5" />
-            <span>Real-Time Pricing Calculator & Instant PDF</span>
-          </div>
-
-          <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
-            Build Your Custom{' '}
-            <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
-              Instant Quotation
-            </span>
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-sm text-slate-200 sm:text-base">
-            Select your system features, hosting option, and monthly marketing scope to see exact
-            transparent pricing in Sri Lankan Rupees (LKR) and download an official corporate PDF.
-          </p>
-        </div>
-
-        {/* Mandatory Dynamic USD Exchange Rate Notice Banner */}
-        <div className="mt-8 rounded-2xl border border-amber-400/50 bg-[#040914]/90 p-5 shadow-lg">
+    <section id="quote-builder" className="relative py-12 sm:py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Currency & Market Rate Notice Banner */}
+        <div className="rounded-2xl border border-amber-300 bg-amber-50/80 p-5 shadow-matte-sm dark:border-amber-900/60 dark:bg-amber-950/30">
           <div className="flex items-start gap-3.5">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-400/20 text-amber-300">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-200 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">
               <AlertTriangle className="h-5 w-5" />
             </div>
-            <div className="text-xs leading-relaxed text-amber-100 sm:text-sm">
-              <strong className="font-display text-amber-300">
-                Currency &amp; Market Rate Notice:
+            <div className="text-xs leading-relaxed text-amber-900 sm:text-sm dark:text-amber-200">
+              <strong className="font-semibold text-amber-950 dark:text-amber-100">
+                Transparent Pricing &amp; Currency Policy:
               </strong>{' '}
-              All base development prices are quoted in Sri Lankan Rupees (LKR). However, third-party
-              cloud infrastructure, custom domains (.com/.net), external APIs, and paid advertising
-              budgets are tied to the US Dollar (USD) and may fluctuate based on the prevailing bank
-              USD exchange rate at the time of invoice.
+              All base development and engineering fees are quoted in Sri Lankan Rupees (LKR). Third-party
+              cloud servers, custom domain registrations (.com/.net), and specialized API services are tied
+              to USD ($) and subject to the prevailing commercial bank exchange rate at invoice issue.
             </div>
           </div>
         </div>
 
         {/* Split-Screen 2-Column Layout */}
         <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
-          {/* LEFT COLUMN (7 Cols): Interactive Multi-Step Configurator */}
+          {/* LEFT COLUMN (7 Cols): Multi-Step Configurator */}
           <div className="space-y-8 lg:col-span-7">
             {/* STEP 1: Select Primary Service Type */}
-            <div className="rounded-3xl border border-[#00F0FF]/25 bg-[#040914] p-6 sm:p-8">
-              <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#00F0FF]">
-                <Sparkles className="h-4 w-4" />
-                <span>Step 01 • Select Primary Service Type</span>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+              <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+                <Layers className="h-4 w-4" />
+                <span>Step 01 • Select Primary System Scope</span>
               </div>
               <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {PRIMARY_SERVICES.map((srv) => {
@@ -418,59 +381,59 @@ export default function QuotationBuilder() {
                       key={srv.id}
                       type="button"
                       onClick={() => handleSelectPrimaryService(srv.id)}
-                      className={`rounded-2xl border p-4 text-left transition-colors ${
+                      className={`rounded-xl border p-4 text-left transition-all ${
                         active
-                          ? 'border-[#00F0FF] bg-[#00F0FF]/15 text-white'
-                          : 'border-white/15 bg-white/5 text-slate-200 hover:border-white/35'
+                          ? 'border-sky-600 bg-sky-50 text-slate-900 dark:border-sky-500 dark:bg-sky-950/40 dark:text-white'
+                          : 'border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-slate-700'
                       }`}
                     >
-                      <div className="font-display text-sm font-extrabold text-white">
+                      <div className="font-display text-sm font-bold text-slate-900 dark:text-white">
                         {srv.label}
                       </div>
-                      <div className="mt-1 text-xs text-slate-300">{srv.desc}</div>
+                      <div className="mt-1 text-xs text-slate-500 dark:text-slate-400">{srv.desc}</div>
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* STEP 2: System Development, Pages Slider, Add-ons & Hosting Tier */}
-            <div className="rounded-3xl border border-[#00F0FF]/25 bg-[#040914] p-6 sm:p-8 space-y-6">
+            {/* STEP 2: System Development, Pages Slider, Add-ons & Hosting */}
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#00F0FF]">
+                <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                   <Sliders className="h-4 w-4" />
-                  <span>Step 02 • System Scope, Add-Ons &amp; Hosting</span>
+                  <span>Step 02 • System Modules, Pages &amp; Cloud Tier</span>
                 </div>
 
-                <span className="rounded-xl border border-[#00F0FF]/40 bg-[#00F0FF]/10 px-3 py-1 font-mono text-xs font-bold text-[#00F0FF]">
-                  Base Starter System: Rs. 35,000
+                <span className="rounded-lg bg-sky-100 px-3 py-1 font-mono text-xs font-bold text-sky-800 dark:bg-sky-950/60 dark:text-sky-300">
+                  Base System: Rs. 35,000
                 </span>
               </div>
 
               {/* Base Starter Card */}
-              <div className="rounded-2xl border border-white/20 bg-white p-4 text-[#040914]">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/60">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
-                    <div className="font-display text-base font-extrabold">
+                    <div className="font-display text-sm font-bold text-slate-900 dark:text-white">
                       Starter System / Corporate Web App
                     </div>
-                    <div className="text-xs text-slate-600">
-                      Responsive UI, up to 5 core pages/views, contact integration &amp; basic SEO
+                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                      Responsive UI, up to 5 core views, contact forms, SEO basics &amp; fast caching
                     </div>
                   </div>
-                  <span className="font-mono text-sm font-extrabold text-[#0051FF]">
+                  <span className="font-mono text-sm font-bold text-sky-600 dark:text-sky-400">
                     Rs. 35,000
                   </span>
                 </div>
               </div>
 
               {/* Extra Dynamic Pages Slider */}
-              <div className="rounded-2xl border border-white/15 bg-[#071022] p-5">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/60">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <label className="font-display text-sm font-bold text-white">
-                    Extra Dynamic Pages / Modules (+Rs. 4,500 per page)
+                  <label className="font-display text-xs font-bold text-slate-900 dark:text-white">
+                    Extra Dynamic Pages (+Rs. 4,500 each)
                   </label>
-                  <span className="rounded-lg bg-[#00F0FF] px-3 py-1 font-mono text-xs font-extrabold text-[#040914]">
+                  <span className="rounded-md bg-slate-900 px-2.5 py-1 font-mono text-xs font-bold text-white dark:bg-slate-100 dark:text-slate-950">
                     {extraPages} Extra Pages (+{formatLkr(extraPages * 4500)})
                   </span>
                 </div>
@@ -481,9 +444,9 @@ export default function QuotationBuilder() {
                   step={1}
                   value={extraPages}
                   onChange={(e) => setExtraPages(Number(e.target.value))}
-                  className="mt-4 h-2 w-full cursor-pointer accent-[#00F0FF]"
+                  className="mt-3.5 h-2 w-full cursor-pointer accent-sky-600 dark:accent-sky-400"
                 />
-                <div className="mt-1.5 flex justify-between font-mono text-[10px] text-slate-400">
+                <div className="mt-1 flex justify-between font-mono text-[10px] text-slate-500 dark:text-slate-400">
                   <span>0 Extra (5 Base Pages)</span>
                   <span>10 Extra Pages</span>
                   <span>20 Extra Pages</span>
@@ -491,9 +454,9 @@ export default function QuotationBuilder() {
               </div>
 
               {/* Optional Development Add-ons */}
-              <div className="space-y-2.5">
-                <div className="font-mono text-xs font-bold uppercase text-slate-300">
-                  Optional Development Modules:
+              <div className="space-y-2">
+                <div className="font-mono text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Optional Architecture Modules:
                 </div>
                 {SYSTEM_ADDONS.map((addon) => {
                   const checked = selectedSystemAddons.includes(addon.id);
@@ -502,25 +465,27 @@ export default function QuotationBuilder() {
                       key={addon.id}
                       type="button"
                       onClick={() => toggleSystemAddon(addon.id)}
-                      className={`flex w-full items-center justify-between gap-4 rounded-2xl border p-4 text-left transition-colors ${
+                      className={`flex w-full items-center justify-between gap-4 rounded-xl border p-3.5 text-left transition-all ${
                         checked
-                          ? 'border-[#00F0FF] bg-[#00F0FF]/10 text-white'
-                          : 'border-white/15 bg-white/5 text-slate-200 hover:border-white/30'
+                          ? 'border-sky-600 bg-sky-50 dark:border-sky-500 dark:bg-sky-950/40'
+                          : 'border-slate-200 bg-slate-50 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <span
-                          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border text-xs font-bold ${
+                          className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] font-bold ${
                             checked
-                              ? 'border-[#00F0FF] bg-[#00F0FF] text-[#040914]'
-                              : 'border-white/30'
+                              ? 'border-sky-600 bg-sky-600 text-white dark:border-sky-400 dark:bg-sky-400 dark:text-slate-950'
+                              : 'border-slate-300 dark:border-slate-600'
                           }`}
                         >
                           {checked ? '✓' : ''}
                         </span>
-                        <span className="text-xs font-semibold sm:text-sm">{addon.name}</span>
+                        <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                          {addon.name}
+                        </span>
                       </div>
-                      <span className="shrink-0 font-mono text-xs font-extrabold text-amber-300">
+                      <span className="shrink-0 font-mono text-xs font-bold text-amber-600 dark:text-amber-400">
                         +{formatLkr(addon.price)}
                       </span>
                     </button>
@@ -529,10 +494,10 @@ export default function QuotationBuilder() {
               </div>
 
               {/* Hosting & Domain Options */}
-              <div className="space-y-3 border-t border-white/15 pt-5">
-                <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase text-amber-300">
-                  <Server className="h-4 w-4" />
-                  <span>Hosting &amp; Domain Tier:</span>
+              <div className="space-y-2.5 border-t border-slate-100 pt-5 dark:border-slate-800">
+                <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  <Server className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+                  <span>Cloud Hosting &amp; Domain Options:</span>
                 </div>
 
                 {HOSTING_OPTIONS.map((opt) => {
@@ -542,32 +507,34 @@ export default function QuotationBuilder() {
                       key={opt.id}
                       type="button"
                       onClick={() => setHostingTierId(opt.id)}
-                      className={`w-full rounded-2xl border p-4 text-left transition-colors ${
+                      className={`w-full rounded-xl border p-3.5 text-left transition-all ${
                         active
-                          ? 'border-[#00F0FF] bg-[#00F0FF]/12 text-white'
-                          : 'border-white/15 bg-white/5 text-slate-200 hover:border-white/30'
+                          ? 'border-sky-600 bg-sky-50 dark:border-sky-500 dark:bg-sky-950/40'
+                          : 'border-slate-200 bg-slate-50 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900/40 dark:hover:border-slate-700'
                       }`}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <span className="font-display text-sm font-extrabold text-white">
+                        <span className="font-display text-xs font-bold text-slate-900 dark:text-white">
                           {opt.name}
                         </span>
                         <span
-                          className={`rounded-lg px-2.5 py-0.5 font-mono text-[10px] font-extrabold ${
+                          className={`rounded px-2 py-0.5 font-mono text-[10px] font-bold ${
                             opt.usdSubject
-                              ? 'bg-amber-400 text-[#040914]'
+                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-300'
                               : opt.id === 'primary-subdomain'
-                              ? 'bg-[#00F0FF] text-[#040914]'
-                              : 'bg-white/15 text-slate-200'
+                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300'
+                              : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
                           }`}
                         >
                           {opt.badge}
                         </span>
                       </div>
-                      <p className="mt-1 text-xs font-medium text-[#00F0FF]">{opt.label}</p>
-                      <div className="mt-1.5 flex items-center justify-between text-xs text-slate-300">
+                      <p className="mt-1 text-[11px] font-medium text-sky-600 dark:text-sky-400">
+                        {opt.label}
+                      </p>
+                      <div className="mt-1 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                         <span>{opt.detail}</span>
-                        <strong className="font-mono text-white">
+                        <strong className="font-mono text-slate-900 dark:text-white">
                           {opt.price > 0
                             ? `${formatLkr(opt.price)}${'pricePrefix' in opt ? opt.pricePrefix : ''}`
                             : 'Rs. 0'}
@@ -579,38 +546,16 @@ export default function QuotationBuilder() {
               </div>
             </div>
 
-            {/* Separate Social Media Package Pointer Card */}
-            <div className="flex flex-col items-start justify-between gap-4 rounded-3xl border border-amber-400/40 bg-[#040914] p-6 sm:flex-row sm:items-center">
-              <div>
-                <div className="font-mono text-xs font-bold uppercase text-amber-300">
-                  Separate Monthly Package Available
-                </div>
-                <div className="mt-1 font-display text-base font-extrabold text-white">
-                  Looking for Social Media Handling (Rs. 10,000+ / month)?
-                </div>
-                <p className="mt-0.5 text-xs text-slate-300">
-                  Explore our dedicated Facebook, Instagram, TikTok, YouTube &amp; WhatsApp monthly growth packages inside Our Services.
-                </p>
-              </div>
-              <a
-                href="#social-packages"
-                className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-amber-400 px-4 py-2.5 font-display text-xs font-extrabold text-[#040914] hover:bg-amber-300"
-              >
-                <span>View Social Packages</span>
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
-            </div>
-
             {/* STEP 3: Client Details Form */}
-            <div className="rounded-3xl border border-[#00F0FF]/25 bg-[#040914] p-6 sm:p-8">
-              <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#00F0FF]">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+              <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                 <User className="h-4 w-4" />
-                <span>Step 03 • Your Details for Official Quotation PDF</span>
+                <span>Step 03 • Contact Details for Official Quotation PDF</span>
               </div>
 
-              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
+                  <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                     Client Name *
                   </label>
                   <input
@@ -618,26 +563,26 @@ export default function QuotationBuilder() {
                     required
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    placeholder="e.g. Nimal Jayasinghe"
-                    className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] px-4 py-3 text-sm text-white placeholder-slate-400 focus:border-[#00F0FF] focus:outline-none"
+                    placeholder="e.g. Kasun Silva"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
+                  <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                     Company / Brand Name
                   </label>
                   <input
                     type="text"
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
-                    placeholder="e.g. Ceylon Spice Exports"
-                    className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] px-4 py-3 text-sm text-white placeholder-slate-400 focus:border-[#00F0FF] focus:outline-none"
+                    placeholder="e.g. Ceylon Logistics"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
+                  <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                     Email Address *
                   </label>
                   <input
@@ -645,13 +590,13 @@ export default function QuotationBuilder() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@company.com"
-                    className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] px-4 py-3 text-sm text-white placeholder-slate-400 focus:border-[#00F0FF] focus:outline-none"
+                    placeholder="kasun@example.com"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
+                  <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
                     Phone / WhatsApp Number *
                   </label>
                   <input
@@ -660,161 +605,142 @@ export default function QuotationBuilder() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="e.g. +94 77 123 4567"
-                    className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] px-4 py-3 text-sm text-white placeholder-slate-400 focus:border-[#00F0FF] focus:outline-none"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                   />
                 </div>
               </div>
 
               <div className="mt-4">
-                <label className="block font-mono text-xs font-semibold uppercase text-slate-200">
-                  Special Notes (Optional)
+                <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  Project Notes / Requirements (Optional)
                 </label>
                 <textarea
                   rows={3}
                   maxLength={1500}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Any specific integrations, deadlines, or extra details..."
-                  className="mt-1.5 w-full rounded-xl border border-white/20 bg-[#02050D] p-3.5 text-sm text-white placeholder-slate-400 focus:border-[#00F0FF] focus:outline-none"
+                  placeholder="Any specific integrations, third-party APIs, or deadlines..."
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                 />
               </div>
             </div>
           </div>
 
-          {/* RIGHT COLUMN (5 Cols): Sticky Live Quotation Receipt Preview */}
+          {/* RIGHT COLUMN (5 Cols): Sticky Receipt Summary */}
           <div className="lg:sticky lg:top-24 lg:col-span-5">
-            <div className="rounded-3xl border border-[#00F0FF]/50 bg-[#040914] p-6 shadow-2xl sm:p-8">
-              <div className="flex items-center justify-between border-b border-white/15 pb-4">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
                 <div>
-                  <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-[#00F0FF]">
-                    LIVE ESTIMATE RECEIPT
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+                    ESTIMATE SUMMARY
                   </div>
-                  <h3 className="font-display text-xl font-extrabold text-white">
+                  <h3 className="font-display text-lg font-bold text-slate-900 dark:text-white">
                     Zora Solutions Quotation
                   </h3>
                 </div>
                 {lastQuoteNumber && (
-                  <span className="rounded-lg bg-amber-400 px-3 py-1 font-mono text-xs font-extrabold text-[#040914]">
+                  <span className="rounded-md bg-amber-100 px-2.5 py-0.5 font-mono text-xs font-bold text-amber-800 dark:bg-amber-950/60 dark:text-amber-300">
                     {lastQuoteNumber}
                   </span>
                 )}
               </div>
 
               {/* Itemized List */}
-              <div className="mt-5 max-h-[300px] space-y-2.5 overflow-y-auto pr-1">
+              <div className="mt-4 max-h-[260px] space-y-2 overflow-y-auto pr-1">
                 {itemizedLines.map((item) => (
                   <div
                     key={`${item.category}-${item.name}`}
-                    className="flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5"
+                    className="flex items-start justify-between gap-3 rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-xs dark:border-slate-800 dark:bg-slate-900/60"
                   >
                     <div>
-                      <div className="text-xs font-semibold text-white">{item.name}</div>
-                      <div className="mt-0.5 font-mono text-[10px] text-[#00F0FF]">
-                        {item.category} • {item.billingType}
+                      <div className="font-semibold text-slate-800 dark:text-slate-200">{item.name}</div>
+                      <div className="mt-0.5 font-mono text-[10px] text-slate-500 dark:text-slate-400">
+                        {item.category}
                       </div>
                     </div>
-                      <span className="shrink-0 font-mono text-xs font-extrabold text-amber-300">
+                    <span className="shrink-0 font-mono text-xs font-bold text-slate-900 dark:text-white">
                       {formatLkr(item.price)}
-                      {item.name.includes('Dedicated Cloud Hosting') ? '+' : ''}
-                      {item.billingType === 'Monthly' ? '/mo' : ''}
                     </span>
                   </div>
                 ))}
               </div>
 
-              {/* Animated Real-Time Totals */}
-              <div className="mt-6 space-y-3 rounded-2xl border border-[#00F0FF]/35 bg-[#02050D] p-5">
+              {/* Real-Time Total Box */}
+              <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/80">
                 <div className="flex items-center justify-between">
-                  <span className="font-display text-sm font-bold text-slate-200">
-                    One-Time Development &amp; Setup
+                  <span className="font-display text-xs font-semibold text-slate-600 dark:text-slate-400">
+                    Estimated Base Total
                   </span>
                   <AnimatePresence mode="wait">
                     <motion.span
                       key={`${oneTimeTotal}-${hostingTierId}`}
-                      initial={{ opacity: 0, y: -6 }}
+                      initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 6 }}
-                      transition={{ duration: 0.16 }}
-                      className="font-display text-2xl font-extrabold text-[#00F0FF]"
+                      exit={{ opacity: 0, y: 4 }}
+                      className="font-display text-xl font-bold text-slate-900 dark:text-white"
                     >
                       {formatLkr(oneTimeTotal)}
                       {hostingTierId === 'custom-domain-cloud' ? '+' : ''}
                     </motion.span>
                   </AnimatePresence>
                 </div>
-
-                <div className="border-t border-white/10 pt-3 font-mono text-[11px] text-slate-300">
-                  Delivery timeline will be confirmed by <strong className="text-white">Zora Solutions</strong> upon kickoff.
+                <div className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                  Estimated Timeline: ~{estimatedWeeks} weeks
                 </div>
               </div>
 
-              {/* Validation Error / Saved Success */}
+              {/* Validation / Feedback Message */}
               {feedbackError && (
-                <div className="mt-4 rounded-xl border border-rose-500/40 bg-rose-500/15 p-3 text-xs font-medium text-rose-200">
+                <div className="mt-3 rounded-lg border border-rose-200 bg-rose-50 p-2.5 text-xs text-rose-700 dark:border-rose-900/60 dark:bg-rose-950/40 dark:text-rose-300">
                   {feedbackError}
                 </div>
               )}
 
               {lastQuoteNumber && !feedbackError && (
-                <div className="mt-4 flex items-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-400/10 p-3 text-xs font-semibold text-emerald-300">
-                  <CheckCircle2 className="h-4 w-4 shrink-0" />
-                  <span>
-                    Saved quotation {lastQuoteNumber} cleanly! Ready for client review.
-                  </span>
+                <div className="mt-3 flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 p-2.5 text-xs font-medium text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/40 dark:text-emerald-300">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                  <span>Quotation saved as {lastQuoteNumber}. Ready for review.</span>
                 </div>
               )}
 
-              {/* Primary CTA: Download Official PDF Quotation */}
-              <div className="mt-6 space-y-3">
+              {/* Actions */}
+              <div className="mt-5 space-y-2.5">
                 <button
                   type="button"
                   disabled={busyAction !== null}
                   onClick={handleSaveAndDownloadPdf}
-                  className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-[#00F0FF] px-6 py-4 font-display text-sm font-extrabold text-[#040914] shadow-[0_0_25px_rgba(0,240,255,0.45)] transition-colors hover:bg-white disabled:opacity-60"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-sky-600 px-4 py-3 font-display text-xs font-bold text-white shadow-sm transition-colors hover:bg-sky-700 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400 disabled:opacity-60"
                 >
                   {busyAction === 'pdf' ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>Saving &amp; Building Official A4 PDF...</span>
+                      <span>Generating Official PDF...</span>
                     </>
                   ) : (
                     <>
-                      <FileDown className="h-5 w-5" />
+                      <FileDown className="h-4 w-4" />
                       <span>Download Official PDF Quotation</span>
                     </>
                   )}
                 </button>
 
-                {/* Secondary CTAs: Send Quote to WhatsApp (Panduka / Dilum) */}
-                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    disabled={busyAction !== null}
                     onClick={() => handleSendWhatsApp('Panduka')}
-                    className="flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-4 py-3 font-mono text-xs font-bold text-white transition-colors hover:border-[#00F0FF] hover:text-[#00F0FF] disabled:opacity-60"
+                    className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                   >
-                    <MessageCircle className="h-4 w-4 text-[#00F0FF]" />
+                    <MessageCircle className="h-3.5 w-3.5 text-emerald-600" />
                     <span>WhatsApp Panduka</span>
                   </button>
                   <button
                     type="button"
-                    disabled={busyAction !== null}
                     onClick={() => handleSendWhatsApp('Dilum')}
-                    className="flex items-center justify-center gap-2 rounded-xl border border-amber-400/50 bg-amber-400/15 px-4 py-3 font-mono text-xs font-bold text-amber-200 transition-colors hover:bg-amber-400 hover:text-[#040914] disabled:opacity-60"
+                    className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 font-mono text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                   >
-                    <MessageCircle className="h-4 w-4" />
+                    <MessageCircle className="h-3.5 w-3.5 text-emerald-600" />
                     <span>WhatsApp Dilum</span>
                   </button>
-                </div>
-
-                <div className="border-t border-white/10 pt-3 text-center font-mono text-[11px] text-slate-300">
-                  Official Email:{' '}
-                  <a
-                    href="mailto:zorasolution.official@gmail.com"
-                    className="font-bold text-[#00F0FF] hover:underline"
-                  >
-                    zorasolution.official@gmail.com
-                  </a>
                 </div>
               </div>
             </div>
@@ -824,4 +750,3 @@ export default function QuotationBuilder() {
     </section>
   );
 }
-

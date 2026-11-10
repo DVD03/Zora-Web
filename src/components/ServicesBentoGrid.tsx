@@ -7,7 +7,6 @@ import {
   ShoppingBag,
   Cpu,
   TrendingUp,
-  Sparkles,
   ListChecks,
   CheckCircle2,
   ArrowUpRight,
@@ -28,7 +27,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   ShoppingBag,
   Cpu,
   TrendingUp,
-  Sparkles,
+  Sparkles: Layers,
 };
 
 /**
@@ -223,11 +222,7 @@ export default function ServicesBentoGrid({
         {/* Friendly, Clear Section Header */}
         <div className="flex flex-col items-start justify-between gap-6 border-b border-white/15 pb-10 lg:flex-row lg:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/40 bg-amber-400/10 px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-amber-300">
-              <Layers className="h-3.5 w-3.5 text-amber-400" />
-              <span>What We Offer • 05 Core Services</span>
-            </div>
-            <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+            <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
               Our Services — Built to{' '}
               <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
                 Grow Your Business
@@ -479,12 +474,7 @@ export default function ServicesBentoGrid({
         >
           <div className="flex flex-col justify-between gap-6 border-b border-white/15 pb-8 lg:flex-row lg:items-center">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#00F0FF]/45 bg-[#00F0FF]/10 px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-[#00F0FF]">
-                <Sliders className="h-3.5 w-3.5" />
-                <span>Dedicated Monthly Service • Flexible Pricing</span>
-              </div>
-
-              <h3 className="mt-4 font-display text-2xl font-extrabold text-white sm:text-4xl">
+              <h3 className="font-display text-2xl font-extrabold text-white sm:text-4xl">
                 Social Media Handling &amp;{' '}
                 <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
                   Brand Growth Packages

@@ -8,7 +8,6 @@ import {
 } from 'framer-motion';
 import {
   ArrowRight,
-  Sparkles,
   ShieldCheck,
   Layers,
   CheckCircle2,
@@ -82,7 +81,7 @@ export default function Hero3DShowcase() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="flex flex-col items-center text-center">
-          {/* Interactive Magnetic Hero Logo Emblem */}
+          {/* Logo Emblem (Standalone Transparent) */}
           <motion.div
             ref={emblemRef}
             onMouseMove={handleEmblemMove}
@@ -92,33 +91,14 @@ export default function Hero3DShowcase() {
               rotateY: springTiltY,
               transformStyle: 'preserve-3d',
             }}
-            className="group relative mb-7 flex h-28 w-28 cursor-pointer items-center justify-center rounded-3xl border border-white/35 bg-gradient-to-b from-white/15 to-[#060D1F]/90 p-4 shadow-[0_0_50px_rgba(0,240,255,0.3)] sm:h-32 sm:w-32"
+            className="relative mb-6 flex h-28 w-28 cursor-pointer items-center justify-center sm:h-32 sm:w-32"
           >
-            <span className="pointer-events-none absolute -inset-2 rounded-[26px] border border-dashed border-amber-300/35" />
-            <span className="pointer-events-none absolute -inset-1 rounded-[24px] border border-white/25" />
-
-            <span className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
-              <motion.span
-                style={{ x: springSheen }}
-                className="absolute inset-y-0 w-16 -skew-x-12 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-              />
-            </span>
-
             <img
               src="/assets/logo.png"
-              alt="Zora Solutions 3D Z Emblem"
-              className="h-full w-full object-contain drop-shadow-[0_0_20px_rgba(0,240,255,0.65)]"
+              alt="Zora Solutions Emblem"
+              className="h-full w-full object-contain"
             />
           </motion.div>
-
-          {/* Tagline Pill — "Crafting Digital Solutions" */}
-          <div className="group relative inline-flex items-center overflow-hidden rounded-full bg-gradient-to-r from-[#FFB800] via-white to-[#00F0FF] p-[1.5px] shadow-[0_0_30px_rgba(255,255,255,0.18)] transition-transform duration-200 hover:scale-[1.03]">
-            <div className="relative flex items-center justify-center rounded-full bg-[#050C1E] px-6 py-2">
-              <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text font-mono text-xs font-bold uppercase tracking-[0.22em] text-transparent">
-                Crafting Digital Solutions
-              </span>
-            </div>
-          </div>
 
           {/* Hero Headline */}
           <motion.h1
@@ -153,9 +133,9 @@ export default function Hero3DShowcase() {
           >
             <a
               href="#configurator"
-              className="group relative inline-flex items-center gap-3 rounded-2xl bg-white px-7 py-4 font-display text-base font-extrabold text-[#030712] shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-300 hover:scale-[1.02] hover:bg-[#00F0FF]"
+              className="group relative inline-flex items-center gap-3 rounded-2xl bg-white px-7 py-4 font-display text-base font-extrabold text-[#030712] shadow-sm transition-all duration-300 hover:scale-[1.02] hover:bg-slate-100"
             >
-              <Sparkles className="h-5 w-5 text-amber-500 transition-colors group-hover:text-[#030712]" />
+              <Rocket className="h-5 w-5 text-sky-600 transition-colors group-hover:text-[#030712]" />
               <span>Start Your Project</span>
               <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
@@ -186,15 +166,15 @@ export default function Hero3DShowcase() {
             transition={{ delay: 0.45 }}
             className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-200 sm:gap-6"
           >
-            <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5">
+            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
               <ShieldCheck className="h-4 w-4 text-amber-400" />
               <span>100% Custom & Mobile-Friendly</span>
             </div>
-            <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5">
-              <Zap className="h-4 w-4 text-[#00F0FF]" />
+            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
+              <Zap className="h-4 w-4 text-sky-400" />
               <span>Fast, Reliable & On-Time Delivery</span>
             </div>
-            <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5">
+            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
               <Award className="h-4 w-4 text-amber-400" />
               <span>Direct Support from Panduka & Dilum</span>
             </div>
@@ -397,7 +377,7 @@ export default function Hero3DShowcase() {
                     <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-amber-400/40 bg-gradient-to-r from-amber-500/15 via-[#060D1F] to-[#060D1F] p-4 sm:flex-row sm:items-center">
                       <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-400 text-[#030712]">
-                          <Sparkles className="h-5 w-5" />
+                          <Layers className="h-5 w-5" />
                         </div>
                         <div>
                           <h4 className="font-display text-sm font-bold text-white">

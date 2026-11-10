@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,18 +10,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        obsidian: '#02050D',
-        midnight: '#060D1F',
+        obsidian: '#090D16',
+        midnight: '#0F172A',
+        surface: {
+          dark: '#111827',
+          darker: '#090D16',
+          card: '#161F30',
+          light: '#F8FAFC',
+          lightCard: '#FFFFFF',
+          lightBorder: '#E2E8F0',
+        },
         cyan: {
-          electric: '#00F0FF',
-          glow: 'rgba(0, 240, 255, 0.35)',
+          electric: '#0EA5E9',
+          glow: 'rgba(14, 165, 233, 0.15)',
         },
         royal: {
-          neon: '#0051FF',
-          deep: '#002B80',
+          neon: '#2563EB',
+          deep: '#1D4ED8',
         },
         violet: {
-          hyper: '#7000FF',
+          hyper: '#6366F1',
         },
         slate: {
           metallic: '#94A3B8',
@@ -32,19 +41,11 @@ const config: Config = {
         sans: ['Plus Jakarta Sans', 'Segoe UI', 'sans-serif'],
         mono: ['JetBrains Mono', 'Consolas', 'monospace'],
       },
-      backgroundImage: {
-        'cyber-grid':
-          'linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px)',
-        'neon-gradient':
-          'linear-gradient(135deg, #00F0FF 0%, #0051FF 55%, #7000FF 100%)',
-        'glass-gradient':
-          'linear-gradient(180deg, rgba(6, 13, 31, 0.78) 0%, rgba(2, 5, 13, 0.92) 100%)',
-      },
       boxShadow: {
-        'cyan-glow': '0 0 30px rgba(0, 240, 255, 0.35)',
-        'cyan-intense': '0 0 50px rgba(0, 240, 255, 0.65)',
-        'royal-glow': '0 0 35px rgba(0, 81, 255, 0.4)',
-        'glass-inset': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.12)',
+        'matte-sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'matte-md': '0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06)',
+        'matte-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08)',
+        'matte-dark': '0 4px 20px -2px rgba(0, 0, 0, 0.5)',
       },
       keyframes: {
         'pulse-neon': {

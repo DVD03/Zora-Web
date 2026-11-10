@@ -104,7 +104,7 @@ export default function PreloaderLogo() {
           >
             <div className="flex items-center gap-2">
               <span className="font-display text-2xl font-bold tracking-wider text-white">
-                ZORA <span className="text-[#00F0FF]">SOLUTIONS</span>
+                Zora Solutions
               </span>
             </div>
             <p className="mt-1 font-mono text-xs uppercase tracking-[0.28em] text-[#94A3B8]">

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import SmoothScrollProvider from '@/components/SmoothScrollProvider';
-import CursorSpotlight from '@/components/CursorSpotlight';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Zora Solutions | Crafting Digital Solutions — Turn Your Ideas into Digital Reality',
@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -37,11 +37,12 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-[#02050D] font-sans text-white antialiased">
-        <SmoothScrollProvider>
-          <CursorSpotlight />
-          {children}
-        </SmoothScrollProvider>
+      <body className="min-h-screen bg-[#F8FAFC] text-slate-900 antialiased transition-colors duration-200 dark:bg-[#090D16] dark:text-slate-100">
+        <ThemeProvider>
+          <SmoothScrollProvider>
+            {children}
+          </SmoothScrollProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

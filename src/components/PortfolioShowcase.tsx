@@ -9,7 +9,6 @@ import {
   CheckCircle2,
   ArrowUpRight,
   Layers,
-  Sparkles,
   Figma,
   Activity,
   ShieldCheck,
@@ -97,12 +96,7 @@ export default function PortfolioShowcase({
             className="gpu-accelerated relative z-10 mx-auto flex h-full w-full max-w-7xl flex-col items-center justify-center px-4 sm:px-8"
           >
             <div className="relative z-10 text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white bg-white px-4 py-1.5 font-mono text-xs font-extrabold uppercase tracking-[0.2em] text-[#030712] shadow-lg">
-                <Sparkles className="h-3.5 w-3.5 text-[#0051FF]" />
-                <span>Inside Zora Innovation</span>
-              </div>
-
-              <h2 className="mt-4 font-portal text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+              <h2 className="font-portal text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
                 Projects We Made for{' '}
                 <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
                   Our Clients
@@ -198,16 +192,6 @@ export default function PortfolioShowcase({
                   'radial-gradient(circle at 50% 52%, rgba(14, 42, 92, 0.85) 0%, rgba(5, 13, 33, 0.95) 45%, #02050D 78%)',
               }}
             />
-
-            {/* Top Brand Promise Pill */}
-            <motion.div
-              style={{ opacity: helperBadgeOpacity }}
-              className="relative z-10 mb-8 flex flex-col items-center px-4 text-center"
-            >
-              <span className="rounded-full border border-white/25 bg-white px-5 py-1.5 font-mono text-xs font-extrabold uppercase tracking-[0.22em] text-[#030712] shadow-lg">
-                Zora Solutions Signature Promise
-              </span>
-            </motion.div>
 
             {/* Lightweight Zooming Vector Wordmark (Max scale 7.2x, tiny 1000x340 box = zero VRAM lag) */}
             <motion.div
@@ -334,9 +318,9 @@ export default function PortfolioShowcase({
               <p className="max-w-md font-sans text-xs font-medium text-slate-200 sm:text-sm">
                 Scroll down to step inside our innovation and explore client projects
               </p>
-              <div className="flex items-center gap-1.5 rounded-full border border-amber-400/50 bg-[#071022] px-4 py-1.5 font-mono text-[11px] font-bold text-amber-300 shadow-lg">
-                <span>SCROLL INSIDE</span>
-                <ChevronDown className="h-3.5 w-3.5" />
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-300">
+                <span>Scroll down</span>
+                <ChevronDown className="h-4 w-4" />
               </div>
             </motion.div>
           </motion.div>
@@ -350,11 +334,7 @@ export default function PortfolioShowcase({
         {/* Section Header & Category Filter Bar */}
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-white">
-              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span>Your Vision. Our Innovation.</span>
-            </div>
-            <h2 className="mt-4 font-portal text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+            <h2 className="font-portal text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
               Projects We Made for{' '}
               <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
                 Our Clients
