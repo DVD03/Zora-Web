@@ -200,13 +200,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" className="light" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&display=swap"
           rel="stylesheet"
+        />
+        {/* Anti-flicker inline theme initialization with default light mode */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var saved = localStorage.getItem('zora-theme');
+                var theme = (saved === 'dark' || saved === 'light') ? saved : 'light';
+                document.documentElement.classList.remove('dark', 'light');
+                document.documentElement.classList.add(theme);
+              } catch (e) {
+                document.documentElement.classList.add('light');
+              }
+            `,
+          }}
         />
         {/* Google & Search Engine Knowledge Graph Schema.org JSON-LD */}
         <script
