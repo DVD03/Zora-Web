@@ -60,35 +60,16 @@ export default function Navbar() {
             : 'border-slate-200/60 bg-white/80 dark:border-slate-800/60 dark:bg-[#0B101B]/85 backdrop-blur-sm'
         }`}
       >
-        {/* Brand Logo with Dynamic Scroll-Fill Indicator */}
+        {/* Brand Logo - Crisp, Clearly Visible Without Box or Fill Effect */}
         <Link
           href="/"
-          className="group flex min-w-0 items-center gap-2 sm:gap-3 py-0.5 transition-opacity hover:opacity-90"
-          title={`Zora Solutions • ${Math.round(scrollProgress * 100)}% Scrolled`}
+          className="group flex min-w-0 items-center gap-2.5 sm:gap-3 py-0.5 transition-transform hover:scale-[1.02]"
         >
-          {/* Scroll-Driven Filling Logo */}
-          <div className="relative h-9 w-9 sm:h-11 sm:w-11 shrink-0 select-none">
-            {/* Background Base Muted Logo (Visible at 0% scroll) */}
-            <img
-              src="/assets/logo.png"
-              alt="Zora Solutions Base"
-              className="absolute inset-0 h-full w-full object-contain opacity-25 grayscale dark:opacity-20"
-            />
-
-            {/* Foreground Full-Color Logo (Fills up vertically based on page scroll) */}
-            <div
-              className="absolute inset-0 transition-[clip-path] duration-75 ease-out"
-              style={{
-                clipPath: `inset(${(1 - scrollProgress) * 100}% 0 0 0)`,
-              }}
-            >
-              <img
-                src="/assets/logo.png"
-                alt="Zora Solutions Active"
-                className="h-full w-full object-contain"
-              />
-            </div>
-          </div>
+          <img
+            src="/assets/logo.png"
+            alt="Zora Solutions Logo"
+            className="h-9 w-9 sm:h-11 sm:w-11 shrink-0 object-contain drop-shadow-md select-none"
+          />
 
           <div className="flex min-w-0 flex-col">
             <span className="truncate font-display text-base font-bold tracking-tight text-slate-900 sm:text-xl dark:text-white">

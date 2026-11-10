@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import PreloaderLogo from '@/components/PreloaderLogo';
 import Navbar from '@/components/Navbar';
 import Hero3DShowcase from '@/components/Hero3DShowcase';
 import ServicesBentoGrid from '@/components/ServicesBentoGrid';
@@ -62,7 +63,10 @@ export default function HomePage() {
 
   return (
     <main className="relative min-h-screen bg-[#070B14] text-white">
-      {/* Sticky Glassmorphic Navbar with Dynamic Scroll-Filling Transparent Logo */}
+      {/* Initial Cyber-Luxury Cinematic Preloader */}
+      <PreloaderLogo />
+
+      {/* Sticky Glassmorphic Navbar with Prominently Visible Unboxed Logo */}
       <Navbar />
 
       {/* Hero Section with 3D Magnetic Emblem, 3D Tilt Perspective & Interactive Tab Showcase */}

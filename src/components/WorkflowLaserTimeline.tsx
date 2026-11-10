@@ -113,7 +113,7 @@ export default function WorkflowLaserTimeline() {
                 scaleY: laserScaleY,
                 transformOrigin: 'top center',
               }}
-              className="gpu-accelerated h-full w-full bg-gradient-to-b from-white via-[#00F0FF] to-amber-400"
+              className="gpu-accelerated h-full w-full bg-sky-400"
             />
           </div>
 

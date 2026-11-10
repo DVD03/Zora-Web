@@ -81,24 +81,81 @@ export default function Hero3DShowcase() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="flex flex-col items-center text-center">
-          {/* Logo Emblem (Standalone Transparent) */}
-          <motion.div
-            ref={emblemRef}
-            onMouseMove={handleEmblemMove}
-            onMouseLeave={handleEmblemLeave}
-            style={{
-              rotateX: springTiltX,
-              rotateY: springTiltY,
-              transformStyle: 'preserve-3d',
-            }}
-            className="relative mb-6 flex h-28 w-28 cursor-pointer items-center justify-center sm:h-32 sm:w-32"
-          >
-            <img
-              src="/assets/logo.png"
-              alt="Zora Solutions Emblem"
-              className="h-full w-full object-contain"
-            />
-          </motion.div>
+          {/* 3D Magnetic Logo Emblem with Rotating Orbital Rings & Floating Tech Badges */}
+          <div className="relative mb-8 flex items-center justify-center">
+            {/* Outer Rotating Holographic Orbital Ring */}
+            <svg
+              className="pointer-events-none absolute h-44 w-44 animate-orbit-spin sm:h-56 sm:w-56"
+              viewBox="0 0 240 240"
+              fill="none"
+            >
+              <defs>
+                <linearGradient id="heroOrbitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.85" />
+                  <stop offset="50%" stopColor="#0284C7" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#0369A1" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <circle
+                cx="120"
+                cy="120"
+                r="110"
+                stroke="url(#heroOrbitGrad)"
+                strokeWidth="1.5"
+                strokeDasharray="110 50 30 50"
+              />
+            </svg>
+
+            {/* Inner Counter-Rotating Circuit Ring */}
+            <svg
+              className="pointer-events-none absolute h-36 w-36 animate-orbit-reverse sm:h-44 sm:w-44"
+              viewBox="0 0 200 200"
+              fill="none"
+            >
+              <circle
+                cx="100"
+                cy="100"
+                r="90"
+                stroke="rgba(56, 189, 248, 0.4)"
+                strokeWidth="1"
+                strokeDasharray="8 14"
+              />
+            </svg>
+
+            {/* Floating 3D Tech Tag Left */}
+            <div className="pointer-events-none absolute -left-24 top-4 hidden animate-float rounded-xl border border-sky-500/30 bg-slate-900/85 px-3 py-1.5 font-mono text-[11px] font-semibold text-sky-300 shadow-matte-sm backdrop-blur-md md:flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Full-Stack &amp; Cloud</span>
+            </div>
+
+            {/* Floating 3D Tech Tag Right */}
+            <div
+              style={{ animationDelay: '2.5s' }}
+              className="pointer-events-none absolute -right-28 bottom-4 hidden animate-float rounded-xl border border-sky-500/30 bg-slate-900/85 px-3 py-1.5 font-mono text-[11px] font-semibold text-sky-300 shadow-matte-sm backdrop-blur-md md:flex items-center gap-1.5"
+            >
+              <span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" />
+              <span>Turn Ideas to Reality</span>
+            </div>
+
+            {/* 3D Magnetic Interactive Logo Emblem */}
+            <motion.div
+              ref={emblemRef}
+              onMouseMove={handleEmblemMove}
+              onMouseLeave={handleEmblemLeave}
+              style={{
+                rotateX: springTiltX,
+                rotateY: springTiltY,
+                transformStyle: 'preserve-3d',
+              }}
+              className="relative z-10 flex h-28 w-28 cursor-pointer items-center justify-center transition-transform hover:scale-105 sm:h-36 sm:w-36 select-none"
+            >
+              <img
+                src="/assets/logo.png"
+                alt="Zora Solutions Emblem"
+                className="h-full w-full object-contain filter drop-shadow-[0_8px_24px_rgba(14,165,233,0.35)]"
+              />
+            </motion.div>
+          </div>
 
           {/* Hero Headline */}
           <motion.h1
