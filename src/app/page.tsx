@@ -144,7 +144,7 @@ export default function HomePage() {
           >
             <div className="inline-flex items-center gap-2 rounded-lg bg-sky-500/10 px-3 py-1 font-mono text-xs font-semibold text-sky-600 dark:text-sky-400">
               <span className="h-2 w-2 rounded-full bg-sky-600 dark:bg-sky-400 animate-pulse" />
-              <span>DEDICATED EXPLORATION PATHS</span>
+              <span>SRI LANKA &amp; GLOBAL SOFTWARE COMPANY</span>
             </div>
 
             <h2 className="mt-3 font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl lg:text-5xl">
@@ -152,8 +152,9 @@ export default function HomePage() {
             </h2>
 
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300 sm:text-base">
-              Each division provides deep-dive specifications, verified production case studies, transparent
-              pricing calculators, and direct consultation channels.
+              Leading software development company and digital engineering partner. Each division provides
+              deep-dive specifications, verified production case studies, transparent pricing calculators, and
+              direct founder consultation.
             </p>
           </motion.div>
 

@@ -19,6 +19,12 @@ export const metadata: Metadata = {
     'Zora Solutions',
     'Zora Group',
     'zorasolutions',
+    'software company',
+    'software company sri lanka',
+    'best software company sri lanka',
+    'top software company colombo',
+    'software development company',
+    'custom software company',
     'Zora Sri Lanka',
     'Zora Web',
     'Zora digital solutions',
@@ -151,6 +157,36 @@ const jsonLdData = {
         '@id': `${SITE_URL}/#organization`,
       },
       inLanguage: 'en-US',
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${SITE_URL}/#faq`,
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'What is Zora Solutions?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Zora Solutions (part of Zora Group) is a leading software company and digital engineering agency in Sri Lanka specializing in bespoke software architectures, custom web applications, e-commerce storefronts, and performance marketing.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What services does Zora Solutions software company provide?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Zora Solutions provides custom software engineering, full-stack Next.js web application development, multi-currency e-commerce platforms, UI/UX systems design, dedicated cloud hosting, and monthly digital marketing packages.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How can I contact Zora Solutions software company in Sri Lanka?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'You can connect directly with founder Panduka Wijekoon via phone or WhatsApp at +94 777 321 165, email zorasolution.official@gmail.com, or build an instant official PDF quotation on https://solutions.zoragroup.lk/estimate.',
+          },
+        },
+      ],
     },
   ],
 };
