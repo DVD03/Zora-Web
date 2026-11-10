@@ -50,7 +50,7 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
   const [clientName, setClientName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [phone, setPhone] = useState('');
-  const [preferredContact, setPreferredContact] = useState<'Panduka' | 'Dilum' | 'Any'>('Any');
+  const [preferredContact, setPreferredContact] = useState<'Panduka' | 'Any'>('Panduka');
   const [projectBrief, setProjectBrief] = useState('');
   const [honeypot, setHoneypot] = useState('');
 
@@ -123,8 +123,8 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
 
       setSubmittedSuccess(true);
 
-      const targetFounder = preferredContact === 'Dilum' ? 'Dilum' : 'Panduka';
-      const targetNumber = targetFounder === 'Dilum' ? '94777498608' : '94777321165';
+      const targetFounder = 'Panduka';
+      const targetNumber = '94777321165';
 
       const waText = [
         `*Hello ${targetFounder} (Zora Solutions)*,`,
@@ -156,22 +156,22 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
   };
 
   return (
-    <section id="configurator" className="relative py-12 sm:py-16">
+    <section id="configurator" className="relative border-b border-sky-100 bg-[#F0F7FF] py-12 transition-colors sm:py-16 dark:border-slate-800 dark:bg-[#070B14]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Top 3 Quick-Action Direct Founder Cards */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        {/* Top Direct Founder Contact Cards */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <a
             href="https://wa.me/94777321165"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
+            className="flex items-center gap-4 rounded-2xl border border-sky-100 bg-white p-4 shadow-matte-sm transition-all hover:border-sky-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
           >
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
               <MessageCircle className="h-5 w-5" />
             </div>
             <div>
               <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                PANDUKA • FASTEST REPLY
+                PANDUKA • FOUNDER
               </div>
               <div className="font-display text-sm font-bold text-slate-900 dark:text-white">
                 Chat With Panduka
@@ -183,30 +183,8 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
           </a>
 
           <a
-            href="https://wa.me/94777498608"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
-          >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-950/50 dark:text-amber-400">
-              <MessageCircle className="h-5 w-5" />
-            </div>
-            <div>
-              <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
-                DILUM • TECHNICAL CO-FOUNDER
-              </div>
-              <div className="font-display text-sm font-bold text-slate-900 dark:text-white">
-                Chat With Dilum
-              </div>
-              <div className="font-mono text-xs text-slate-500 dark:text-slate-400">
-                +94 77 749 8608
-              </div>
-            </div>
-          </a>
-
-          <a
             href="tel:+94777321165"
-            className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
+            className="flex items-center gap-4 rounded-2xl border border-sky-100 bg-white p-4 shadow-matte-sm transition-all hover:border-sky-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
           >
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky-600 dark:bg-sky-950/50 dark:text-sky-400">
               <PhoneCall className="h-5 w-5" />
@@ -216,10 +194,10 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                 DIRECT VOICE LINE
               </div>
               <div className="font-display text-sm font-bold text-slate-900 dark:text-white">
-                Call Us Directly
+                Call Founder Directly
               </div>
-              <div className="text-xs text-slate-500 dark:text-slate-400">
-                Panduka: 0777 321 165
+              <div className="font-mono text-xs text-slate-500 dark:text-slate-400">
+                +94 777 321 165
               </div>
             </div>
           </a>
@@ -228,7 +206,7 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
         {/* Main Grid: Form + Founders Overview */}
         <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
           {/* Form */}
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark lg:col-span-8">
+          <div className="rounded-2xl border border-sky-100 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark lg:col-span-8">
             <AnimatePresence mode="wait">
               {!submittedSuccess ? (
                 <form onSubmit={handleSubmitAndOpenWhatsApp} className="space-y-6">
@@ -371,18 +349,16 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
 
                       <div>
                         <label className="block font-mono text-xs font-semibold text-slate-700 dark:text-slate-300">
-                          Target Founder
+                          Direct Contact
                         </label>
                         <select
                           value={preferredContact}
                           onChange={(e) =>
-                            setPreferredContact(e.target.value as 'Panduka' | 'Dilum' | 'Any')
+                            setPreferredContact(e.target.value as 'Panduka' | 'Any')
                           }
                           className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                         >
-                          <option value="Any">Panduka (General &amp; Fast Consultation)</option>
                           <option value="Panduka">Panduka (+94 777 321 165)</option>
-                          <option value="Dilum">Dilum (+94 77 749 8608)</option>
                         </select>
                       </div>
                     </div>
@@ -447,7 +423,7 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
 
           {/* Right 4 Cols: Trust & SLA Sidebar */}
           <div className="space-y-6 lg:col-span-4">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+            <div className="rounded-2xl border border-sky-100 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
               <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200">
                 Response Guarantee
               </h4>
@@ -465,9 +441,9 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                 <div className="flex items-start gap-2.5">
                   <UserCheck className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
                   <div>
-                    <strong className="text-slate-900 dark:text-white">Direct Technical Founders</strong>
+                    <strong className="text-slate-900 dark:text-white">Direct Founder Consultation</strong>
                     <p className="mt-0.5 text-slate-500 dark:text-slate-400">
-                      Your brief is reviewed directly by Panduka or Dilum, not external sales representatives.
+                      Your brief is reviewed directly by Panduka, not external sales representatives.
                     </p>
                   </div>
                 </div>
@@ -484,7 +460,7 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+            <div className="rounded-2xl border border-sky-100 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
               <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200">
                 Official Channels
               </h4>
@@ -497,7 +473,7 @@ export default function ProjectConfigurator({ preselectedService }: ProjectConfi
                 </div>
                 <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
                   <PhoneCall className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
-                  <span>+94 777 321 165 / +94 77 749 8608</span>
+                  <span>+94 777 321 165</span>
                 </div>
               </div>
             </div>

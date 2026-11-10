@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
+import Link from 'next/link';
 import {
   motion,
   useMotionValue,
@@ -8,12 +9,9 @@ import {
 } from 'framer-motion';
 import {
   ArrowRight,
-  ShieldCheck,
   Layers,
   CheckCircle2,
   MessageCircle,
-  Zap,
-  Award,
   Globe,
   ShoppingBag,
   Cpu,
@@ -57,7 +55,7 @@ export default function Hero3DShowcase() {
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden pt-28 pb-24 sm:pt-36"
+      className="relative w-full overflow-hidden pt-28 pb-24 sm:pt-36 bg-[#070B14] text-white border-b border-slate-800/60"
     >
       {/* Multi-Spectrum Ambient Horizon */}
       <div className="pointer-events-none absolute inset-0 bg-cyber-grid bg-[size:56px_56px] opacity-30" />
@@ -122,26 +120,13 @@ export default function Hero3DShowcase() {
               />
             </svg>
 
-            {/* Floating 3D Tech Tag Left */}
-            <div className="pointer-events-none absolute -left-24 top-4 hidden animate-float rounded-xl border border-sky-500/30 bg-slate-900/85 px-3 py-1.5 font-mono text-[11px] font-semibold text-sky-300 shadow-matte-sm backdrop-blur-md md:flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Full-Stack &amp; Cloud</span>
-            </div>
-
-            {/* Floating 3D Tech Tag Right */}
-            <div
-              style={{ animationDelay: '2.5s' }}
-              className="pointer-events-none absolute -right-28 bottom-4 hidden animate-float rounded-xl border border-sky-500/30 bg-slate-900/85 px-3 py-1.5 font-mono text-[11px] font-semibold text-sky-300 shadow-matte-sm backdrop-blur-md md:flex items-center gap-1.5"
-            >
-              <span className="h-2 w-2 rounded-full bg-sky-400 animate-pulse" />
-              <span>Turn Ideas to Reality</span>
-            </div>
-
-            {/* 3D Magnetic Interactive Logo Emblem */}
+            {/* 3D Magnetic Interactive Logo Emblem (Floating, Pulsing & Interactive) */}
             <motion.div
               ref={emblemRef}
               onMouseMove={handleEmblemMove}
               onMouseLeave={handleEmblemLeave}
+              animate={{ y: [0, -7, 0] }}
+              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
               style={{
                 rotateX: springTiltX,
                 rotateY: springTiltY,
@@ -149,10 +134,13 @@ export default function Hero3DShowcase() {
               }}
               className="relative z-10 flex h-28 w-28 cursor-pointer items-center justify-center transition-transform hover:scale-105 sm:h-36 sm:w-36 select-none"
             >
+              {/* Soft Pulsing Cyber Energy Core behind Emblem */}
+              <div className="pointer-events-none absolute -inset-3 rounded-full bg-sky-500/25 blur-xl animate-pulse" />
+
               <img
                 src="/assets/logo.png"
                 alt="Zora Solutions Emblem"
-                className="h-full w-full object-contain filter drop-shadow-[0_8px_24px_rgba(14,165,233,0.35)]"
+                className="relative z-10 h-full w-full object-contain filter drop-shadow-[0_8px_28px_rgba(14,165,233,0.45)]"
               />
             </motion.div>
           </div>
@@ -165,7 +153,7 @@ export default function Hero3DShowcase() {
             className="mt-6 max-w-5xl font-display text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl lg:leading-[1.08]"
           >
             Turn Your Ideas into{' '}
-            <span className="text-sky-400">
+            <span className="text-sky-400 drop-shadow-[0_0_25px_rgba(56,189,248,0.35)]">
               Digital Reality
             </span>
           </motion.h1>
@@ -188,53 +176,32 @@ export default function Hero3DShowcase() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="mt-9 flex flex-wrap items-center justify-center gap-4"
           >
-            <a
-              href="#configurator"
+            <Link
+              href="/estimate"
               className="group relative inline-flex items-center gap-3 rounded-2xl bg-white px-7 py-4 font-display text-base font-extrabold text-[#030712] shadow-sm transition-all duration-300 hover:scale-[1.02] hover:bg-slate-100"
             >
               <Rocket className="h-5 w-5 text-sky-600 transition-colors group-hover:text-[#030712]" />
               <span>Start Your Project</span>
               <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
+            </Link>
 
-            <a
-              href="#portfolio"
+            <Link
+              href="/projects"
               className="inline-flex items-center gap-2.5 rounded-2xl border border-white/30 bg-white/10 px-7 py-4 font-display text-base font-semibold text-white transition-all hover:border-white hover:bg-white hover:text-[#030712]"
             >
-              <Layers className="h-5 w-5 text-[#00F0FF] group-hover:text-[#030712]" />
+              <Layers className="h-5 w-5 text-sky-400 group-hover:text-[#030712]" />
               <span>See Our Work</span>
-            </a>
+            </Link>
 
             <a
               href="https://wa.me/94777321165?text=Hi%20Zora%20Solutions!%20I%20would%20like%20to%20discuss%20a%20digital%20project."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl border border-amber-400/50 bg-amber-400/15 px-5 py-4 font-mono text-xs font-bold text-amber-200 transition-all hover:border-amber-300 hover:bg-amber-400 hover:text-[#030712]"
+              className="inline-flex items-center gap-2 rounded-2xl border border-emerald-500/40 bg-emerald-500/15 px-5 py-4 font-mono text-xs font-bold text-emerald-300 transition-all hover:bg-emerald-500 hover:text-white"
             >
               <MessageCircle className="h-4 w-4" />
               <span>Chat on WhatsApp</span>
             </a>
-          </motion.div>
-
-          {/* Simple, Easy-to-Understand Trust Highlights */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.45 }}
-            className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-200 sm:gap-6"
-          >
-            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
-              <ShieldCheck className="h-4 w-4 text-amber-400" />
-              <span>100% Custom & Mobile-Friendly</span>
-            </div>
-            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
-              <Zap className="h-4 w-4 text-sky-400" />
-              <span>Fast, Reliable & On-Time Delivery</span>
-            </div>
-            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
-              <Award className="h-4 w-4 text-amber-400" />
-              <span>Direct Support from Panduka & Dilum</span>
-            </div>
           </motion.div>
         </div>
 
@@ -335,14 +302,11 @@ export default function Hero3DShowcase() {
                 {/* Direct Quick Call / WhatsApp Box inside Left Card */}
                 <div className="mt-6 rounded-xl bg-[#040B1A] p-4 text-white">
                   <div className="font-mono text-[11px] font-bold uppercase text-amber-300">
-                    Talk Directly With Us:
+                    Talk Directly With Founder:
                   </div>
                   <div className="mt-2 flex flex-col gap-1.5 font-mono text-xs">
                     <a href="tel:+94777321165" className="hover:text-[#00F0FF]">
                       Panduka: <strong>+94 777 321 165</strong>
-                    </a>
-                    <a href="tel:+94777498608" className="hover:text-amber-300">
-                      Dilum: <strong>+94 77 749 8608</strong>
                     </a>
                   </div>
                 </div>
@@ -626,14 +590,7 @@ export default function Hero3DShowcase() {
                           className="inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2 font-mono text-xs font-extrabold text-[#030712] hover:bg-[#00F0FF]"
                         >
                           <PhoneCall className="h-3.5 w-3.5" />
-                          <span>Call Panduka</span>
-                        </a>
-                        <a
-                          href="tel:+94777498608"
-                          className="inline-flex items-center gap-1.5 rounded-xl bg-amber-400 px-4 py-2 font-mono text-xs font-extrabold text-[#030712] hover:bg-amber-300"
-                        >
-                          <PhoneCall className="h-3.5 w-3.5" />
-                          <span>Call Dilum</span>
+                          <span>Call Panduka (+94 777 321 165)</span>
                         </a>
                       </div>
                     </div>

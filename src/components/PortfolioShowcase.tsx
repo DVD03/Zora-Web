@@ -336,13 +336,13 @@ export default function PortfolioShowcase({
         {/* Section Header & Category Filter Bar */}
         <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div>
-            <h2 className="font-portal text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+            <h2 className="font-portal text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
               Projects We Made for{' '}
-              <span className="text-sky-400">
+              <span className="text-sky-600 dark:text-sky-400">
                 Our Clients
               </span>
             </h2>
-            <p className="mt-3 max-w-2xl text-sm text-slate-200 sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300 sm:text-base">
               Click any project below to see how we turned our client&apos;s vision into a live,
               high-performing digital product.
             </p>

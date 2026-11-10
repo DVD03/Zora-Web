@@ -152,11 +152,10 @@ export async function generateOfficialQuotationPdf(data: PdfQuotationInput): Pro
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
   doc.setTextColor(51, 65, 85);
-  doc.text('Panduka: +94 777 321 165 (Call / WhatsApp)', rightX + 4, cursorY + 18.5);
-  doc.text('Dilum: +94 77 749 8608 (Call / WhatsApp)', rightX + 4, cursorY + 23.5);
-  doc.text('Email: zorasolution.official@gmail.com', rightX + 4, cursorY + 28.5);
+  doc.text('Founder: Panduka Wijekoon (+94 777 321 165)', rightX + 4, cursorY + 18.5);
+  doc.text('Email: zorasolution.official@gmail.com', rightX + 4, cursorY + 24.5);
 
-  cursorY += 39;
+  cursorY += 35;
 
   const hasPlusHosting = data.hostingTier.includes('Dedicated Cloud Hosting') || data.hostingTier.includes('25,000+');
 
@@ -315,7 +314,7 @@ export async function generateOfficialQuotationPdf(data: PdfQuotationInput): Pro
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(15, 23, 42);
-  doc.text('Panduka & Dilum — Co-Founders', margin, stampY + 5);
+  doc.text('Panduka Wijekoon — Founder', margin, stampY + 5);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(71, 85, 105);

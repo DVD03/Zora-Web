@@ -16,7 +16,7 @@ export default function ContactPage() {
         badge="Direct Founder Communication"
         title="Start Your Project With Us"
         titleHighlight="Fast & Transparent"
-        description="Connect directly with Panduka and Dilum. Share your requirements to receive a comprehensive technical proposal, milestone breakdown, and instant WhatsApp consultation."
+        description="Connect directly with founder Panduka. Share your requirements to receive a comprehensive technical proposal, milestone breakdown, and instant WhatsApp consultation."
         breadcrumbs={[{ label: 'Contact Us' }]}
       />
 

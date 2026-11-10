@@ -18,8 +18,11 @@ export default function PageHeader({
   breadcrumbs,
 }: PageHeaderProps) {
   return (
-    <div className="relative border-b border-slate-200 bg-white pt-24 pb-8 transition-colors dark:border-slate-800 dark:bg-[#0B101B] sm:pt-28 sm:pb-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="relative border-b border-sky-100/90 bg-white pt-24 pb-10 transition-colors dark:border-slate-800 dark:bg-[#0B101B] sm:pt-28 sm:pb-14">
+      {/* Subtle Sky Accent Glow in Light Mode */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-sky-50/70 via-transparent to-transparent opacity-80 dark:opacity-0" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="mb-3.5 flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:gap-2 dark:text-slate-400">
           <Link

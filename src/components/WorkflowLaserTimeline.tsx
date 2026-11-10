@@ -20,7 +20,7 @@ const WORKFLOW_STEPS: WorkflowStep[] = [
     title: 'Share Your Idea',
     subtitle: 'Tell us what you need',
     description:
-      'Connect directly with Panduka & Dilum for a quick discovery conversation. We understand your business goals, target customers, and requirements.',
+      'Connect directly with founder Panduka for a quick discovery conversation. We understand your business goals, target customers, and requirements.',
     badge: '30%',
     deliverables: [
       'Direct Founder Discovery Call',
@@ -80,14 +80,14 @@ export default function WorkflowLaserTimeline() {
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         {/* Section Header */}
         <div className="flex flex-col items-center text-center">
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
             From Concept to{' '}
-            <span className="text-sky-400">
+            <span className="text-sky-600 dark:text-sky-400">
               Market Leadership
             </span>
           </h2>
 
-          <p className="mt-4 max-w-2xl text-sm text-slate-200 sm:text-base">
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300 sm:text-base">
             A clear, transparent 3-step process designed to turn your business idea into a finished,
             high-performing digital product.
           </p>
@@ -96,24 +96,24 @@ export default function WorkflowLaserTimeline() {
         {/* Horizontal & Vertical Laser Circuit Path */}
         <div className="relative mt-16">
           {/* Desktop Horizontal Laser Beam Track */}
-          <div className="pointer-events-none absolute top-10 left-[12%] right-[12%] hidden h-[3px] bg-white/15 lg:block">
+          <div className="pointer-events-none absolute top-10 left-[12%] right-[12%] hidden h-[3px] bg-slate-200 dark:bg-white/15 lg:block">
             <motion.div
               style={{
                 scaleX: laserScaleX,
                 transformOrigin: 'left center',
               }}
-              className="gpu-accelerated h-full w-full bg-sky-400"
+              className="gpu-accelerated h-full w-full bg-sky-500 dark:bg-sky-400"
             />
           </div>
 
           {/* Mobile/Tablet Vertical Laser Beam Track */}
-          <div className="pointer-events-none absolute top-8 bottom-8 left-8 w-[3px] bg-white/15 lg:hidden">
+          <div className="pointer-events-none absolute top-8 bottom-8 left-8 w-[3px] bg-slate-200 dark:bg-white/15 lg:hidden">
             <motion.div
               style={{
                 scaleY: laserScaleY,
                 transformOrigin: 'top center',
               }}
-              className="gpu-accelerated h-full w-full bg-sky-400"
+              className="gpu-accelerated h-full w-full bg-sky-500 dark:bg-sky-400"
             />
           </div>
 
@@ -130,8 +130,8 @@ export default function WorkflowLaserTimeline() {
                 >
                   {/* Circuit Node Icon */}
                   <div className="absolute left-0 top-0 lg:static lg:mb-8">
-                    <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-white bg-white text-[#030712] shadow-lg sm:h-20 sm:w-20">
-                      <Icon className="h-8 w-8" />
+                    <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-slate-200 bg-white text-slate-900 shadow-matte-md dark:border-white/20 dark:bg-slate-900 dark:text-white sm:h-20 sm:w-20">
+                      <Icon className="h-8 w-8 text-sky-600 dark:text-sky-400" />
                       <span className="absolute -top-2.5 -right-2.5 rounded-full bg-amber-400 px-2 py-0.5 font-mono text-[10px] font-extrabold text-[#030712]">
                         {step.badge}
                       </span>
@@ -142,68 +142,36 @@ export default function WorkflowLaserTimeline() {
                   <div
                     className={`w-full rounded-3xl border p-6 transition-transform duration-200 hover:-translate-y-1 sm:p-8 ${
                       isCenterWhiteCard
-                        ? 'border-white bg-gradient-to-br from-white via-[#F8FAFC] to-[#E2E8F0] text-[#0F172A] shadow-xl'
-                        : 'border-white/25 bg-gradient-to-b from-[#091428] to-[#030712] text-white shadow-xl'
+                        ? 'border-sky-500/50 bg-sky-50/50 text-slate-900 shadow-xl dark:border-sky-400/40 dark:bg-gradient-to-b dark:from-[#0B1936] dark:to-[#040A18] dark:text-white'
+                        : 'border-slate-200 bg-white text-slate-900 shadow-matte-md dark:border-white/20 dark:bg-gradient-to-b dark:from-[#091428] dark:to-[#030712] dark:text-white'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span
-                        className={`font-mono text-xs font-extrabold uppercase tracking-widest ${
-                          isCenterWhiteCard ? 'text-[#0051FF]' : 'text-amber-300'
-                        }`}
-                      >
+                      <span className="font-mono text-xs font-extrabold uppercase tracking-widest text-sky-600 dark:text-sky-400">
                         STEP {step.number}
                       </span>
-                      <span
-                        className={`rounded-full px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase ${
-                          isCenterWhiteCard
-                            ? 'bg-[#040B1A] text-white'
-                            : 'bg-white text-[#030712]'
-                        }`}
-                      >
+                      <span className="rounded-full bg-slate-900 px-2.5 py-0.5 font-mono text-[10px] font-bold uppercase text-white dark:bg-white dark:text-[#030712]">
                         STAGE {step.badge}
                       </span>
                     </div>
 
-                    <h3
-                      className={`mt-3 font-display text-2xl font-extrabold ${
-                        isCenterWhiteCard ? 'text-[#040B1A]' : 'text-white'
-                      }`}
-                    >
+                    <h3 className="mt-3 font-display text-2xl font-extrabold text-slate-900 dark:text-white">
                       {step.title}
                     </h3>
-                    <p
-                      className={`mt-1 font-mono text-xs font-bold uppercase tracking-wider ${
-                        isCenterWhiteCard ? 'text-[#0051FF]' : 'text-[#00F0FF]'
-                      }`}
-                    >
+                    <p className="mt-1 font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-[#00F0FF]">
                       “{step.subtitle}”
                     </p>
-                    <p
-                      className={`mt-3 text-sm leading-relaxed ${
-                        isCenterWhiteCard ? 'text-slate-700' : 'text-slate-200'
-                      }`}
-                    >
+                    <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-200">
                       {step.description}
                     </p>
 
-                    <div
-                      className={`mt-6 space-y-2 border-t pt-4 ${
-                        isCenterWhiteCard ? 'border-slate-300' : 'border-white/15'
-                      }`}
-                    >
+                    <div className="mt-6 space-y-2 border-t border-slate-200 pt-4 dark:border-white/15">
                       {step.deliverables.map((deliv) => (
                         <div
                           key={deliv}
-                          className={`flex items-center gap-2 text-xs font-medium ${
-                            isCenterWhiteCard ? 'text-slate-800' : 'text-slate-100'
-                          }`}
+                          className="flex items-center gap-2 text-xs font-medium text-slate-700 dark:text-slate-200"
                         >
-                          <CheckCircle2
-                            className={`h-3.5 w-3.5 shrink-0 ${
-                              isCenterWhiteCard ? 'text-[#0051FF]' : 'text-amber-400'
-                            }`}
-                          />
+                          <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-sky-600 dark:text-sky-400" />
                           <span>{deliv}</span>
                         </div>
                       ))}

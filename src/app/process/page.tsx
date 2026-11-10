@@ -2,11 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
 import PageHeader from '@/components/PageHeader';
-import WorkflowLaserTimeline from '@/components/WorkflowLaserTimeline';
 import {
   Layers,
   CheckCircle2,
@@ -37,6 +37,7 @@ export default function ProcessPage() {
       ],
       duration: 'Week 1 – 2',
       badge: 'Interactive Prototype',
+      icon: Layers,
     },
     {
       phase: 'Phase 02 — 60% Milestone',
@@ -52,6 +53,7 @@ export default function ProcessPage() {
       ],
       duration: 'Week 3 – 5',
       badge: 'Alpha Staging',
+      icon: Code2,
     },
     {
       phase: 'Phase 03 — 100% Milestone',
@@ -67,6 +69,7 @@ export default function ProcessPage() {
       ],
       duration: 'Week 6',
       badge: 'Production Launch',
+      icon: Rocket,
     },
   ];
 
@@ -82,68 +85,83 @@ export default function ProcessPage() {
         breadcrumbs={[{ label: 'How We Work' }]}
       />
 
-      {/* 3D Laser Scroll-Drawn Workflow Timeline Component */}
-      <section className="relative z-10 -mt-6">
-        <WorkflowLaserTimeline />
-      </section>
-
-      {/* Structured Phase Roadmap Details (Matte Architectural View) */}
-      <section className="py-12 sm:py-16 lg:py-20">
+      {/* Structured Phase Roadmap Details - Soft Light Blue Alternating Section */}
+      <section className="border-b border-sky-100 bg-[#F0F7FF] py-12 transition-colors sm:py-16 lg:py-20 dark:border-slate-800 dark:bg-[#070B14]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="space-y-10">
-            {steps.map((step, idx) => (
-              <div
-                key={step.phase}
-                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0B101B] dark:shadow-matte-dark sm:p-8 lg:p-10"
-              >
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-                  <div className="lg:col-span-5">
-                    <div className="flex items-center gap-2 font-mono text-xs font-bold text-sky-600 dark:text-sky-400">
-                      <Clock className="h-4 w-4" />
-                      <span>{step.duration}</span>
-                    </div>
-
-                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 font-mono text-[11px] font-bold text-slate-800 dark:bg-slate-800 dark:text-slate-200">
-                      <span>{step.phase}</span>
-                    </div>
-
-                    <h3 className="mt-3 font-display text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
-                      {step.title}
-                    </h3>
-
-                    <p className="mt-2 font-sans text-sm font-semibold text-sky-600 dark:text-sky-400">
-                      {step.tagline}
-                    </p>
-
-                    <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                      {step.description}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 lg:col-span-7 lg:border-l lg:border-slate-200 lg:pl-8 dark:lg:border-slate-800">
-                    <h4 className="font-mono text-xs font-bold tracking-wider text-slate-900 uppercase dark:text-slate-200">
-                      Verified Phase Deliverables
-                    </h4>
-
-                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                      {step.deliverables.map((item) => (
-                        <div
-                          key={item}
-                          className="flex items-start gap-2.5 rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 text-xs text-slate-700 dark:border-slate-800/80 dark:bg-slate-900/60 dark:text-slate-300"
-                        >
-                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sky-600 dark:text-sky-400" />
-                          <span className="leading-snug">{item}</span>
+            {steps.map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.phase}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -6, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
+                  className="group relative overflow-hidden rounded-3xl border border-sky-100 bg-white p-6 shadow-matte-sm transition-all hover:border-sky-400 hover:shadow-matte-lg dark:border-slate-800 dark:bg-[#0B101B] dark:hover:border-slate-700 dark:shadow-matte-dark sm:p-8 lg:p-10"
+                >
+                  {/* Subtle Top Border Glow on Hover */}
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-sky-500/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+                    <div className="lg:col-span-5">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-500/20 bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                          <Icon className="h-6 w-6" />
                         </div>
-                      ))}
+                        <div>
+                          <div className="flex items-center gap-2 font-mono text-xs font-bold text-sky-600 dark:text-sky-400">
+                            <Clock className="h-3.5 w-3.5" />
+                            <span>{step.duration}</span>
+                          </div>
+                          <span className="font-mono text-xs font-semibold text-slate-500 dark:text-slate-400">
+                            {step.phase}
+                          </span>
+                        </div>
+                      </div>
+
+                      <h3 className="mt-4 font-display text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
+                        {step.title}
+                      </h3>
+
+                      <p className="mt-2 font-sans text-sm font-semibold text-sky-600 dark:text-sky-400">
+                        {step.tagline}
+                      </p>
+
+                      <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                        {step.description}
+                      </p>
+                    </div>
+
+                    <div className="space-y-4 lg:col-span-7 lg:border-l lg:border-slate-200 lg:pl-8 dark:lg:border-slate-800">
+                      <h4 className="font-mono text-xs font-bold tracking-wider text-slate-900 uppercase dark:text-slate-200">
+                        Verified Phase Deliverables
+                      </h4>
+
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        {step.deliverables.map((item) => (
+                          <div
+                            key={item}
+                            className="flex items-start gap-2.5 rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 text-xs text-slate-700 dark:border-slate-800/80 dark:bg-slate-900/60 dark:text-slate-300"
+                          >
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                            <span className="leading-snug">{item}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
+        </div>
+      </section>
 
-          {/* SLA & Guarantees */}
-          <div className="mt-16 rounded-3xl border border-slate-200 bg-white p-8 dark:border-slate-800 dark:bg-[#0B101B] sm:p-10">
+      {/* SLA & Guarantees - Crisp White Alternating Section */}
+      <section className="border-t border-sky-100 bg-white py-14 transition-colors dark:border-slate-800 dark:bg-[#080D1A] sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl border border-sky-100/90 bg-[#F0F7FF]/50 p-8 dark:border-slate-800 dark:bg-[#0B101B] sm:p-10">
             <div className="max-w-2xl">
               <span className="font-mono text-xs font-bold tracking-wider text-sky-600 dark:text-sky-400 uppercase">
                 Contractual Commitments

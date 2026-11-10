@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
           success: false,
           error: `Too many project inquiries from your network. Please wait ${Math.ceil(
             rateStatus.retryAfterSeconds / 60
-          )} minutes or reach Panduka (+94 777 321 165) or Dilum (+94 77 749 8608) directly on WhatsApp.`,
+          )} minutes or reach founder Panduka (+94 777 321 165) directly on WhatsApp.`,
         },
         {
           status: 429,

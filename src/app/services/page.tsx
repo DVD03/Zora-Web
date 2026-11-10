@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
 import PageHeader from '@/components/PageHeader';
-import ServicesBentoGrid from '@/components/ServicesBentoGrid';
 import { INITIAL_SERVICES } from '@/lib/seedData';
 import {
   Globe,
@@ -49,15 +49,10 @@ export default function ServicesPage() {
         breadcrumbs={[{ label: 'Services' }]}
       />
 
-      {/* Interactive 3D Bento Grid with Tech Stack Card Flip */}
-      <section className="relative z-10 -mt-6">
-        <ServicesBentoGrid services={INITIAL_SERVICES} />
-      </section>
-
-      {/* Deep-Dive Service Specifications (Matte Architectural View) */}
-      <section className="py-12 sm:py-16 lg:py-20">
+      {/* Main Service Specifications View - Soft Light Blue Alternating Section */}
+      <section className="border-b border-sky-100 bg-[#F0F7FF] py-12 transition-colors sm:py-16 lg:py-20 dark:border-slate-800 dark:bg-[#070B14]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 flex flex-col items-start justify-between gap-4 border-b border-slate-200 pb-5 md:flex-row md:items-end dark:border-slate-800">
+          <div className="mb-10 flex flex-col items-start justify-between gap-4 border-b border-sky-200/60 pb-5 md:flex-row md:items-end dark:border-slate-800">
             <div>
               <span className="font-mono text-xs font-semibold tracking-wider text-sky-600 dark:text-sky-400 uppercase">
                 Technical Specifications &amp; Deliverables
@@ -101,11 +96,18 @@ export default function ServicesPage() {
             {filteredServices.map((service, index) => {
               const Icon = ICON_MAP[service.iconName] || Globe;
               return (
-                <div
+                <motion.div
                   key={service._id}
                   id={service.slug}
-                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-matte-sm transition-all hover:border-slate-300 dark:border-slate-800 dark:bg-[#0B101B] dark:hover:border-slate-700 dark:shadow-matte-dark sm:p-8 lg:p-10"
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ y: -6, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
+                  className="group relative overflow-hidden rounded-3xl border border-sky-100 bg-white p-6 shadow-matte-sm transition-all hover:border-sky-400 hover:shadow-matte-lg dark:border-slate-800 dark:bg-[#0B101B] dark:hover:border-slate-700 dark:shadow-matte-dark sm:p-8 lg:p-10"
                 >
+                  {/* Subtle Top Border Glow on Hover */}
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-sky-500/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
                     <div className="lg:col-span-5">
                       <div className="flex items-center gap-3">
@@ -177,7 +179,7 @@ export default function ServicesPage() {
 
                       <div className="flex flex-wrap items-center gap-3 pt-2">
                         <Link
-                          href={`/estimate`}
+                          href="/estimate"
                           className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2 font-display text-xs font-bold text-white transition-colors hover:bg-sky-700 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
                         >
                           <Calculator className="h-3.5 w-3.5" />
@@ -193,7 +195,7 @@ export default function ServicesPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>

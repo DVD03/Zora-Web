@@ -115,7 +115,7 @@ if (!g.__zoraMemoryStore) {
         estimatedBudget: 'Custom Quote (Direct Phone Call)',
         projectBrief:
           'Looking to launch our luxury export skincare storefront with multi-currency checkout (USD/LKR/EUR) and high-converting social ad funnels.',
-        preferredContact: 'Dilum',
+        preferredContact: 'Panduka',
         ipHash: 'f82c1d90e34a',
         status: 'New',
         adminNotes: '',
@@ -200,7 +200,7 @@ async function seedDatabaseIfNeeded() {
       await AdminUserModel.create({
         email: env.ADMIN_INITIAL_EMAIL.toLowerCase(),
         passwordHash,
-        name: 'Panduka & Dilum (Founders)',
+        name: 'Panduka (Founder)',
         role: 'Founder',
         failedLoginAttempts: 0,
         lockUntil: null,
@@ -220,7 +220,7 @@ export async function getMemoryAdminUser(): Promise<MemoryAdminRecord> {
       _id: 'admin-founder-1',
       email: env.ADMIN_INITIAL_EMAIL.toLowerCase(),
       passwordHash,
-      name: 'Panduka & Dilum (Founders)',
+      name: 'Panduka (Founder)',
       role: 'Founder',
       failedLoginAttempts: 0,
       lockUntil: null,

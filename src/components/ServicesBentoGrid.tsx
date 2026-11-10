@@ -220,22 +220,22 @@ export default function ServicesBentoGrid({
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         {/* Friendly, Clear Section Header */}
-        <div className="flex flex-col items-start justify-between gap-6 border-b border-white/15 pb-10 lg:flex-row lg:items-end">
+        <div className="flex flex-col items-start justify-between gap-6 border-b border-slate-200 dark:border-white/15 pb-10 lg:flex-row lg:items-end">
           <div>
-            <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+            <h2 className="font-display text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
               Our Services — Built to{' '}
-              <span className="text-sky-400">
+              <span className="text-sky-600 dark:text-sky-400">
                 Grow Your Business
               </span>
             </h2>
           </div>
-          <p className="max-w-md text-sm leading-relaxed text-slate-200 sm:text-base">
+          <p className="max-w-md text-sm leading-relaxed text-slate-600 dark:text-slate-300 sm:text-base">
             Click{' '}
-            <span className="rounded bg-white px-2 py-0.5 font-mono text-xs font-bold text-[#030712]">
+            <span className="rounded bg-slate-900 text-white dark:bg-white dark:text-[#030712] px-2 py-0.5 font-mono text-xs font-bold">
               See Full Details
             </span>{' '}
             on any card below to view everything included, or explore our{' '}
-            <a href="#social-packages" className="font-bold text-[#00F0FF] underline">
+            <a href="#social-packages" className="font-bold text-sky-600 dark:text-[#00F0FF] underline">
               Social Media Monthly Packages
             </a>{' '}
             right below.
@@ -480,7 +480,7 @@ export default function ServicesBentoGrid({
                   Brand Growth Packages
                 </span>
               </h3>
-              <p className="mt-2.5 max-w-2xl text-sm text-slate-200">
+              <p className="mt-2.5 max-w-2xl text-sm text-slate-300">
                 Grow your brand every month across Facebook, Instagram, TikTok, YouTube &amp; WhatsApp.
                 Prices start at <strong className="text-amber-300">{baseSocialPriceLabel}</strong> and
                 can be freely adjusted to fit your exact post count, Reels, and ad budget.
