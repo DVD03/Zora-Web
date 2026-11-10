@@ -60,16 +60,20 @@ export const metadata: Metadata = {
       'Turn Your Ideas into Digital Reality. Enterprise web applications, bespoke software, e-commerce platforms, and marketing in Sri Lanka.',
     images: [
       {
-        url: '/assets/logo-full.png',
+        url: `${SITE_URL}/og-image.png`,
+        secureUrl: `${SITE_URL}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: 'Zora Solutions — Crafting Digital Solutions',
+        alt: 'Zora Solutions — Software Engineering Agency',
+        type: 'image/png',
       },
       {
-        url: '/assets/logo.png',
-        width: 512,
-        height: 512,
+        url: `${SITE_URL}/assets/logo.png`,
+        secureUrl: `${SITE_URL}/assets/logo.png`,
+        width: 840,
+        height: 840,
         alt: 'Zora Solutions Emblem',
+        type: 'image/png',
       },
     ],
   },
@@ -78,7 +82,7 @@ export const metadata: Metadata = {
     title: 'Zora Solutions | Software Engineering & Digital Solutions',
     description:
       'Turn Your Ideas into Digital Reality. Modern web apps, custom software, and digital marketing in Sri Lanka.',
-    images: ['/assets/logo-full.png'],
+    images: [`${SITE_URL}/og-image.png`],
     creator: '@ZoraSolutions',
   },
   robots: {
@@ -223,6 +227,14 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Social Share & WhatsApp Preview OpenGraph tags */}
+        <meta property="og:image" content={`${SITE_URL}/og-image.png`} />
+        <meta property="og:image:secure_url" content={`${SITE_URL}/og-image.png`} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Zora Solutions Logo & Branding" />
+
         {/* Google & Search Engine Knowledge Graph Schema.org JSON-LD */}
         <script
           type="application/ld+json"
