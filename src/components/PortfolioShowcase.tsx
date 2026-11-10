@@ -114,8 +114,8 @@ export default function PortfolioShowcase({
               </p>
             </div>
 
-            {/* 3 Featured Client Projects Spotlight Revealed Inside */}
-            <div className="relative z-10 mt-8 grid w-full max-w-6xl grid-cols-1 gap-5 sm:grid-cols-3">
+            {/* 3 Featured Client Projects Spotlight Revealed Inside (1 featured card on mobile so nothing clips in h-screen; all 3 on desktop!) */}
+            <div className="relative z-10 mt-6 grid w-full max-w-6xl grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-3 sm:gap-5">
               {initialProjects.slice(0, 3).map((proj, i) => {
                 const isCenterCard = i === 1;
                 return (
@@ -123,6 +123,8 @@ export default function PortfolioShowcase({
                     key={proj._id || proj.slug}
                     onClick={() => setActiveProject(proj)}
                     className={`group cursor-pointer overflow-hidden rounded-2xl border p-4 transition-transform duration-200 hover:-translate-y-1 ${
+                      i > 0 ? 'hidden sm:block' : ''
+                    } ${
                       isCenterCard
                         ? 'border-white bg-white text-[#030712] shadow-2xl'
                         : 'border-white/25 bg-[#071022] text-white hover:border-[#00F0FF]'

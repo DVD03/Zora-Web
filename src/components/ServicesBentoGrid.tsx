@@ -273,7 +273,7 @@ export default function ServicesBentoGrid({
               >
                 {/* Top Header Bar: Service Number + Clear Details Toggle */}
                 <div>
-                  <div className="flex items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       <div
                         className={`flex h-12 w-12 items-center justify-center rounded-2xl border transition-transform duration-300 group-hover:scale-110 ${

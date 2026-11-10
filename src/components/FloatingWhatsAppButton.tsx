@@ -36,7 +36,7 @@ export default function FloatingWhatsAppButton() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.18 }}
-            className="mb-3 w-[320px] overflow-hidden rounded-3xl border border-[#25D366]/50 bg-[#040914] shadow-2xl sm:w-[360px]"
+            className="mb-3 w-[calc(100vw-2.5rem)] max-w-[350px] overflow-hidden rounded-3xl border border-[#25D366]/50 bg-[#040914] shadow-2xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-white/15 bg-[#071327] px-5 py-4">
