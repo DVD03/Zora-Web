@@ -26,7 +26,6 @@ import {
 export default function Hero3DShowcase() {
   const emblemRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<'services' | 'why-us' | 'how-it-works'>('services');
-  const [cockpitView, setCockpitView] = useState<'architecture' | 'capabilities' | 'deliverables'>('architecture');
 
   // 3D Magnetic Hover on Hero Logo Emblem (only active on direct pointer hover — zero scroll overhead!)
   const tiltX = useMotionValue(0);
@@ -58,40 +57,17 @@ export default function Hero3DShowcase() {
   return (
     <section
       id="hero"
-      className="relative w-full overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-24"
+      className="relative w-full overflow-hidden pt-28 pb-24 sm:pt-36"
     >
-      {/* Dynamic Layered Cyber-Horizon Backdrop */}
-      <div className="pointer-events-none absolute inset-0 bg-cyber-grid bg-[size:48px_48px] opacity-25" />
-      
-      {/* Ambient Radial Color Spotlights */}
+      {/* Multi-Spectrum Ambient Horizon */}
+      <div className="pointer-events-none absolute inset-0 bg-cyber-grid bg-[size:56px_56px] opacity-30" />
       <div
-        className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-[560px] w-[1100px] rounded-full opacity-60"
+        className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-[560px] w-[1100px] rounded-full"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(14,165,233,0.18) 0%, rgba(99,102,241,0.12) 35%, rgba(16,185,129,0.06) 65%, transparent 80%)',
+            'radial-gradient(ellipse at center, rgba(255,255,255,0.10) 0%, rgba(0,240,255,0.14) 32%, rgba(255,184,0,0.08) 58%, transparent 80%)',
         }}
       />
-
-      {/* Decorative Cyber Accent Lines */}
-      <svg
-        className="pointer-events-none absolute inset-0 h-full w-full opacity-20"
-        viewBox="0 0 1440 900"
-        fill="none"
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M 0 200 H 420 L 480 260 H 1440"
-          stroke="#38BDF8"
-          strokeWidth="1"
-          strokeDasharray="6 6"
-        />
-        <path
-          d="M 0 680 H 960 L 1020 620 H 1440"
-          stroke="#6366F1"
-          strokeWidth="1"
-          strokeDasharray="8 8"
-        />
-      </svg>
 
       {/* Subtle Holographic 'Z' Watermark in Background */}
       <div className="pointer-events-none absolute top-28 right-[-5%] z-0 select-none opacity-[0.05] sm:right-[4%]">
@@ -105,92 +81,34 @@ export default function Hero3DShowcase() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
         <div className="flex flex-col items-center text-center">
-          {/* Top Status & Booking Availability Pill */}
+          {/* Logo Emblem (Standalone Transparent) */}
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-1.5 backdrop-blur-md shadow-sm"
+            ref={emblemRef}
+            onMouseMove={handleEmblemMove}
+            onMouseLeave={handleEmblemLeave}
+            style={{
+              rotateX: springTiltX,
+              rotateY: springTiltY,
+              transformStyle: 'preserve-3d',
+            }}
+            className="relative mb-6 flex h-28 w-28 cursor-pointer items-center justify-center sm:h-32 sm:w-32"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span className="font-mono text-xs font-semibold text-sky-200">
-              High-Performance Digital Studio • 2026/2027 Booking Open
-            </span>
+            <img
+              src="/assets/logo.png"
+              alt="Zora Solutions Emblem"
+              className="h-full w-full object-contain"
+            />
           </motion.div>
-
-          {/* 3D Magnetic Logo Emblem with Rotating Orbital Tech Rings */}
-          <div className="relative mb-6 flex items-center justify-center">
-            {/* Outer Slow Rotating Orbital Ring */}
-            <svg
-              className="pointer-events-none absolute h-44 w-44 sm:h-52 sm:w-52 animate-orbit-spin select-none opacity-40"
-              viewBox="0 0 200 200"
-              fill="none"
-            >
-              <circle
-                cx="100"
-                cy="100"
-                r="92"
-                stroke="url(#heroOrbitGrad)"
-                strokeWidth="1.5"
-                strokeDasharray="16 12 40 12"
-              />
-              <defs>
-                <linearGradient id="heroOrbitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#38BDF8" />
-                  <stop offset="50%" stopColor="#6366F1" />
-                  <stop offset="100%" stopColor="#10B981" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Inner Counter-Rotating Ring */}
-            <svg
-              className="pointer-events-none absolute h-36 w-36 sm:h-44 sm:w-44 animate-orbit-reverse select-none opacity-30"
-              viewBox="0 0 160 160"
-              fill="none"
-            >
-              <circle
-                cx="80"
-                cy="80"
-                r="72"
-                stroke="#38BDF8"
-                strokeWidth="1"
-                strokeDasharray="8 8"
-              />
-            </svg>
-
-            {/* 3D Magnetic Emblem */}
-            <motion.div
-              ref={emblemRef}
-              onMouseMove={handleEmblemMove}
-              onMouseLeave={handleEmblemLeave}
-              style={{
-                rotateX: springTiltX,
-                rotateY: springTiltY,
-                transformStyle: 'preserve-3d',
-              }}
-              className="relative z-10 flex h-28 w-28 cursor-pointer items-center justify-center sm:h-36 sm:w-36 transition-transform hover:scale-105"
-            >
-              <img
-                src="/assets/logo.png"
-                alt="Zora Solutions Emblem"
-                className="h-full w-full object-contain filter drop-shadow-[0_10px_25px_rgba(14,165,233,0.35)]"
-              />
-            </motion.div>
-          </div>
 
           {/* Hero Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="mt-3 max-w-5xl font-display text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl lg:leading-[1.08]"
+            className="mt-6 max-w-5xl font-display text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl lg:leading-[1.08]"
           >
             Turn Your Ideas into{' '}
-            <span className="bg-gradient-to-r from-sky-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-sm">
+            <span className="text-sky-400">
               Digital Reality
             </span>
           </motion.h1>
@@ -200,10 +118,10 @@ export default function Hero3DShowcase() {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-5 max-w-2xl font-sans text-base leading-relaxed text-slate-200 sm:text-xl"
+            className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-slate-200 sm:text-xl"
           >
-            We engineer custom web applications, e-commerce storefronts, and bespoke software systems
-            with structured milestones, fixed timelines, and full source code ownership.
+            We build modern, reliable, and creative digital solutions to help you and your business
+            grow online.
           </motion.p>
 
           {/* Hero CTAs */}
@@ -211,7 +129,7 @@ export default function Hero3DShowcase() {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-8 flex flex-wrap items-center justify-center gap-4"
+            className="mt-9 flex flex-wrap items-center justify-center gap-4"
           >
             <a
               href="#configurator"
@@ -234,212 +152,32 @@ export default function Hero3DShowcase() {
               href="https://wa.me/94777321165?text=Hi%20Zora%20Solutions!%20I%20would%20like%20to%20discuss%20a%20digital%20project."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl border border-emerald-400/50 bg-emerald-400/15 px-5 py-4 font-mono text-xs font-bold text-emerald-200 transition-all hover:border-emerald-300 hover:bg-emerald-400 hover:text-[#030712]"
+              className="inline-flex items-center gap-2 rounded-2xl border border-amber-400/50 bg-amber-400/15 px-5 py-4 font-mono text-xs font-bold text-amber-200 transition-all hover:border-amber-300 hover:bg-amber-400 hover:text-[#030712]"
             >
               <MessageCircle className="h-4 w-4" />
               <span>Chat on WhatsApp</span>
             </a>
           </motion.div>
 
-          {/* Simple Trust Highlights */}
+          {/* Simple, Easy-to-Understand Trust Highlights */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.45 }}
-            className="mt-7 flex flex-wrap items-center justify-center gap-3 text-xs font-medium text-slate-200 sm:gap-6"
+            className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-200 sm:gap-6"
           >
             <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
-              <ShieldCheck className="h-4 w-4 text-emerald-400" />
-              <span>100% Custom &amp; Mobile-Friendly</span>
+              <ShieldCheck className="h-4 w-4 text-amber-400" />
+              <span>100% Custom & Mobile-Friendly</span>
             </div>
             <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
               <Zap className="h-4 w-4 text-sky-400" />
-              <span>Sub-40ms TTFB &amp; Fast Launch</span>
+              <span>Fast, Reliable & On-Time Delivery</span>
             </div>
             <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5">
               <Award className="h-4 w-4 text-amber-400" />
-              <span>Direct Support from Panduka &amp; Dilum</span>
+              <span>Direct Support from Panduka & Dilum</span>
             </div>
-          </motion.div>
-
-          {/* =========================================================================
-              FUTURISTIC 3D SYSTEM COCKPIT (INTERACTIVE LIVE PREVIEW CENTERPIECE)
-              Completely eliminates "blankness" with rich interactive engineering UI
-             ========================================================================= */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-12 w-full max-w-5xl rounded-3xl border border-sky-500/30 bg-[#081024]/90 p-4 sm:p-6 shadow-2xl backdrop-blur-xl relative overflow-hidden"
-          >
-            {/* Top Browser Window Header */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700/60 pb-4">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-rose-500/80 inline-block"></span>
-                <span className="h-3 w-3 rounded-full bg-amber-500/80 inline-block"></span>
-                <span className="h-3 w-3 rounded-full bg-emerald-500/80 inline-block"></span>
-                <span className="ml-2 font-mono text-xs text-slate-300 hidden sm:inline-block">
-                  zorasolutions.com/live-architecture
-                </span>
-              </div>
-
-              {/* View Switcher Pills */}
-              <div className="flex items-center gap-1.5 rounded-xl border border-slate-700 bg-slate-900/90 p-1">
-                {[
-                  { id: 'architecture', label: 'Architecture Nodes', icon: Cpu },
-                  { id: 'capabilities', label: 'Live Telemetry', icon: TrendingUp },
-                  { id: 'deliverables', label: 'Production SLA', icon: Layers },
-                ].map((item) => {
-                  const Icon = item.icon;
-                  const active = cockpitView === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => setCockpitView(item.id as typeof cockpitView)}
-                      className={`flex items-center gap-1.5 rounded-lg px-3 py-1 font-mono text-[11px] font-semibold transition-all ${
-                        active
-                          ? 'bg-sky-500 text-slate-950 font-bold shadow'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      <Icon className="h-3.5 w-3.5" />
-                      <span>{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* 4 Quick Telemetry Cards */}
-            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <div className="rounded-2xl border border-sky-500/20 bg-sky-950/20 p-3.5 text-left">
-                <div className="flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-slate-400">System Uptime</span>
-                </div>
-                <div className="mt-1 font-display text-lg font-bold text-white sm:text-xl">99.99%</div>
-                <div className="text-[11px] text-sky-400">Global Edge SLA</div>
-              </div>
-
-              <div className="rounded-2xl border border-indigo-500/20 bg-indigo-950/20 p-3.5 text-left">
-                <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400">Average Launch</div>
-                <div className="mt-1 font-display text-lg font-bold text-white sm:text-xl">14–21 Days</div>
-                <div className="text-[11px] text-indigo-400">Milestone Driven</div>
-              </div>
-
-              <div className="rounded-2xl border border-teal-500/20 bg-teal-950/20 p-3.5 text-left">
-                <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400">Code Quality</div>
-                <div className="mt-1 font-display text-lg font-bold text-white sm:text-xl">100% Owned</div>
-                <div className="text-[11px] text-teal-400">Zero Lock-In</div>
-              </div>
-
-              <div className="rounded-2xl border border-amber-500/20 bg-amber-950/20 p-3.5 text-left">
-                <div className="font-mono text-[10px] uppercase tracking-wider text-slate-400">Direct Founders</div>
-                <div className="mt-1 font-display text-lg font-bold text-white sm:text-xl">24/7 Access</div>
-                <div className="text-[11px] text-amber-400">Panduka &amp; Dilum</div>
-              </div>
-            </div>
-
-            {/* Dynamic Cockpit View */}
-            {cockpitView === 'architecture' && (
-              <div className="mt-5 rounded-2xl border border-slate-700/60 bg-[#060D1E] p-4 sm:p-5 text-left">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                  <span className="font-mono text-xs text-sky-400 font-semibold uppercase">
-                    Core Technical Architecture Pipeline
-                  </span>
-                  <span className="font-mono text-[11px] text-slate-500">Live Blueprint View</span>
-                </div>
-                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                  <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3.5 hover:border-sky-500 transition-colors">
-                    <div className="font-mono text-xs font-bold text-sky-400">01. Frontend Tier</div>
-                    <div className="mt-1 text-sm font-bold text-white">Next.js 15 &amp; React 19</div>
-                    <p className="mt-1 text-xs text-slate-400 leading-relaxed">
-                      Server Components, sub-second route transitions, and responsive mobile-first UI.
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3.5 hover:border-indigo-500 transition-colors">
-                    <div className="font-mono text-xs font-bold text-indigo-400">02. Backend &amp; DB</div>
-                    <div className="mt-1 text-sm font-bold text-white">MongoDB Atlas &amp; REST APIs</div>
-                    <p className="mt-1 text-xs text-slate-400 leading-relaxed">
-                      Secure JWT authentication, high-throughput database queries, and automatic backups.
-                    </p>
-                  </div>
-                  <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3.5 hover:border-teal-500 transition-colors">
-                    <div className="font-mono text-xs font-bold text-teal-400">03. Production Edge</div>
-                    <div className="mt-1 text-sm font-bold text-white">Unified Vercel Host</div>
-                    <p className="mt-1 text-xs text-slate-400 leading-relaxed">
-                      Same-host deployment with sub-40ms TTFB worldwide, automatic SSL, and zero CORS overhead.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {cockpitView === 'capabilities' && (
-              <div className="mt-5 rounded-2xl border border-slate-700/60 bg-[#060D1E] p-4 sm:p-5 text-left">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                  <span className="font-mono text-xs text-indigo-400 font-semibold uppercase">
-                    Live Performance Benchmarks
-                  </span>
-                  <span className="font-mono text-[11px] text-slate-500">Audited Specifications</span>
-                </div>
-                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3">
-                    <div className="font-mono text-[10px] text-slate-400 uppercase">Lighthouse Performance</div>
-                    <div className="mt-1 font-display text-xl font-bold text-emerald-400">99 / 100</div>
-                    <div className="text-[10px] text-slate-500">Google Verified</div>
-                  </div>
-                  <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3">
-                    <div className="font-mono text-[10px] text-slate-400 uppercase">First Contentful Paint</div>
-                    <div className="mt-1 font-display text-xl font-bold text-sky-400">&lt; 0.6s</div>
-                    <div className="text-[10px] text-slate-500">Instant Loading</div>
-                  </div>
-                  <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3">
-                    <div className="font-mono text-[10px] text-slate-400 uppercase">Mobile Optimization</div>
-                    <div className="mt-1 font-display text-xl font-bold text-teal-400">100% Score</div>
-                    <div className="text-[10px] text-slate-500">All Viewports</div>
-                  </div>
-                  <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-3">
-                    <div className="font-mono text-[10px] text-slate-400 uppercase">Security Rating</div>
-                    <div className="mt-1 font-display text-xl font-bold text-amber-400">Grade A+</div>
-                    <div className="text-[10px] text-slate-500">Encrypted Endpoints</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {cockpitView === 'deliverables' && (
-              <div className="mt-5 rounded-2xl border border-slate-700/60 bg-[#060D1E] p-4 sm:p-5 text-left">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                  <span className="font-mono text-xs text-teal-400 font-semibold uppercase">
-                    Production SLA &amp; Guarantees
-                  </span>
-                  <span className="font-mono text-[11px] text-slate-500">Contractual Terms</span>
-                </div>
-                <div className="mt-4 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                  <div className="flex items-center gap-2.5 rounded-xl border border-slate-800 bg-slate-900/40 p-3 text-xs text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-                    <span>Fixed-price Statement of Work with zero hidden cost surges</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 rounded-xl border border-slate-800 bg-slate-900/40 p-3 text-xs text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-                    <span>Full Git repository access and copyright transfer upon go-live</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 rounded-xl border border-slate-800 bg-slate-900/40 p-3 text-xs text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-                    <span>Dedicated WhatsApp channel with &lt; 2-hour response time</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 rounded-xl border border-slate-800 bg-slate-900/40 p-3 text-xs text-slate-200">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
-                    <span>30-Day post-launch warranty and bug-fix support included</span>
-                  </div>
-                </div>
-              </div>
-            )}
           </motion.div>
         </div>
 
