@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, X, ArrowUpRight, MessageCircle } from 'lucide-react';
+import { Send, X, MessageCircle } from 'lucide-react';
 
 const PANDUKA_WA_NUMBER = '94777321165';
 
@@ -36,7 +36,7 @@ export default function FloatingWhatsAppButton() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.16 }}
-            className="mb-3 w-[310px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-matte-lg dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark sm:w-[350px]"
+            className="mb-3 w-[calc(100vw-2.5rem)] max-w-[350px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-matte-lg dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark"
           >
             {/* Header */}
             <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50 px-4 py-3.5 dark:border-slate-800 dark:bg-slate-900">
