@@ -96,6 +96,9 @@ export const metadata: Metadata = {
     icon: '/assets/logo.png',
     apple: '/assets/logo.png',
   },
+  verification: {
+    google: 'googlea60e38811e5896d7',
+  },
   category: 'technology',
 };
 
