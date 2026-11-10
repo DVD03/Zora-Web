@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
 import PageHeader from '@/components/PageHeader';
+import WorkflowLaserTimeline from '@/components/WorkflowLaserTimeline';
 import {
   Layers,
   CheckCircle2,
@@ -59,36 +60,13 @@ export default function ProcessPage() {
       description:
         'We subject your application to enterprise security auditing, responsive stress testing, and Core Web Vitals optimization. Upon final review, we conduct live domain routing, SSL installation, and complete handover.',
       deliverables: [
-        'Production Cloud Deployment & SSL Setup',
-        'Core Web Vitals & Speed Optimization (95+ Score)',
-        'Full Source Code & Repository Handover',
-        '30-Day Post-Launch Hypercare Support',
+        'Production Cloud Deployment & Domain Routing',
+        'Complete Git Source Repository Ownership',
+        'Google Analytics & Search Console Setup',
+        '30-Day Post-Launch Hypercare Support SLA',
       ],
-      duration: 'Final Handover',
-      badge: 'Production Live',
-    },
-  ];
-
-  const guarantees = [
-    {
-      title: 'Direct Founder Oversight',
-      desc: 'No middle managers or delegated juniors. Panduka and Dilum personally oversee system design, code quality, and project milestones.',
-      icon: ShieldCheck,
-    },
-    {
-      title: 'Fixed Pricing & Zero Hidden Fees',
-      desc: 'Transparent line-item quotation beforehand. The agreed milestone budget is the exact amount you pay.',
-      icon: Calculator,
-    },
-    {
-      title: '100% Code Ownership',
-      desc: 'You own all intellectual property, source repositories, database backups, and design assets upon milestone completion.',
-      icon: Code2,
-    },
-    {
-      title: 'Hypercare Warranty',
-      desc: 'Complimentary 30-day bug fix warranty and monitoring after your platform goes live on production.',
-      icon: Zap,
+      duration: 'Week 6',
+      badge: 'Production Launch',
     },
   ];
 
@@ -97,141 +75,146 @@ export default function ProcessPage() {
       <Navbar />
 
       <PageHeader
-        badge="Engineered Execution"
-        title="Predictable Delivery Pipeline"
-        titleHighlight="Zero Surprises"
-        description="Our structured 3-phase delivery framework gives you total visibility over development progress, verifiable milestones, and fixed delivery timelines."
+        badge="Execution Framework"
+        title="Predictable Milestone-Driven"
+        titleHighlight="Delivery Engine"
+        description="We follow a rigid 3-phase delivery process with structured client reviews, live staging demos, and fixed SLA commitments at every step."
         breadcrumbs={[{ label: 'How We Work' }]}
       />
 
-      {/* Structured Phased Milestones Division */}
-      <section className="py-14 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <span className="font-mono text-xs font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
-              Phased Execution Methodology
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
-              3 Structured Milestones. Total Transparency.
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-400">
-              Payments and milestones align directly with tangible project progress and signed-off deliverables.
-            </p>
-          </div>
+      {/* 3D Laser Scroll-Drawn Workflow Timeline Component */}
+      <section className="relative z-10 -mt-6">
+        <WorkflowLaserTimeline />
+      </section>
 
-          <div className="space-y-8">
+      {/* Structured Phase Roadmap Details (Matte Architectural View) */}
+      <section className="py-12 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="space-y-10">
             {steps.map((step, idx) => (
               <div
-                key={idx}
-                className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 lg:p-10 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark"
+                key={step.phase}
+                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0B101B] dark:shadow-matte-dark sm:p-8 lg:p-10"
               >
-                <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <span className="font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
-                        {step.phase}
-                      </span>
-                      <span className="rounded-full bg-slate-100 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-                        {step.badge}
-                      </span>
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+                  <div className="lg:col-span-5">
+                    <div className="flex items-center gap-2 font-mono text-xs font-bold text-sky-600 dark:text-sky-400">
+                      <Clock className="h-4 w-4" />
+                      <span>{step.duration}</span>
                     </div>
-                    <h3 className="mt-2 font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+
+                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 font-mono text-[11px] font-bold text-slate-800 dark:bg-slate-800 dark:text-slate-200">
+                      <span>{step.phase}</span>
+                    </div>
+
+                    <h3 className="mt-3 font-display text-xl font-bold tracking-tight text-slate-900 sm:text-2xl dark:text-white">
                       {step.title}
                     </h3>
-                    <p className="mt-1 font-sans text-sm font-semibold text-slate-700 dark:text-slate-300">
+
+                    <p className="mt-2 font-sans text-sm font-semibold text-sky-600 dark:text-sky-400">
                       {step.tagline}
+                    </p>
+
+                    <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                      {step.description}
                     </p>
                   </div>
 
-                  <div className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2 font-mono text-xs font-bold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
-                    <Clock className="h-4 w-4 text-amber-500" />
-                    <span>Timeline: {step.duration}</span>
-                  </div>
-                </div>
+                  <div className="space-y-4 lg:col-span-7 lg:border-l lg:border-slate-200 lg:pl-8 dark:lg:border-slate-800">
+                    <h4 className="font-mono text-xs font-bold tracking-wider text-slate-900 uppercase dark:text-slate-200">
+                      Verified Phase Deliverables
+                    </h4>
 
-                <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                  {step.description}
-                </p>
-
-                {/* Deliverables Checklist */}
-                <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800">
-                  <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200 mb-3">
-                    Milestone Signed-Off Deliverables:
-                  </h4>
-                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                    {step.deliverables.map((item, dIdx) => (
-                      <div
-                        key={dIdx}
-                        className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300"
-                      >
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
+                    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      {step.deliverables.map((item) => (
+                        <div
+                          key={item}
+                          className="flex items-start gap-2.5 rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 text-xs text-slate-700 dark:border-slate-800/80 dark:bg-slate-900/60 dark:text-slate-300"
+                        >
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                          <span className="leading-snug">{item}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Guarantees & Commitments Division */}
-          <div className="mt-20">
-            <div className="mb-10 text-center">
-              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-sky-600 dark:text-sky-400">
-                Core Principles
+          {/* SLA & Guarantees */}
+          <div className="mt-16 rounded-3xl border border-slate-200 bg-white p-8 dark:border-slate-800 dark:bg-[#0B101B] sm:p-10">
+            <div className="max-w-2xl">
+              <span className="font-mono text-xs font-bold tracking-wider text-sky-600 dark:text-sky-400 uppercase">
+                Contractual Commitments
               </span>
-              <h2 className="mt-2 font-display text-3xl font-bold text-slate-900 dark:text-white">
-                Our Engineering Commitments
-              </h2>
+              <h3 className="mt-1 font-display text-2xl font-bold text-slate-900 sm:text-3xl dark:text-white">
+                Our Guarantee to Founders &amp; Stakeholders
+              </h3>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {guarantees.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark"
-                  >
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-sky-600 dark:border-slate-700 dark:bg-slate-800 dark:text-sky-400">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h4 className="mt-4 font-display text-base font-bold text-slate-900 dark:text-white">
-                      {item.title}
-                    </h4>
-                    <p className="mt-2 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
-                      {item.desc}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5 dark:border-slate-800/80 dark:bg-slate-900/50">
+                <FileCheck className="h-6 w-6 text-sky-600 dark:text-sky-400" />
+                <h4 className="mt-3 font-display text-base font-bold text-slate-900 dark:text-white">
+                  100% Code Ownership
+                </h4>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                  Full git repository, IP handover, and no proprietary vendor lock-ins.
+                </p>
+              </div>
 
-          {/* Bottom Action Division */}
-          <div className="mt-16 rounded-2xl border border-slate-200 bg-slate-100/70 p-8 text-center sm:p-12 dark:border-slate-800 dark:bg-[#0C121E]">
-            <h3 className="font-display text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
-              Ready to schedule your discovery kickoff?
-            </h3>
-            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-              Share your project details with our technical team. We will review your scope and provide a
-              milestone breakdown within 24 hours.
-            </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/estimate"
-                className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-5 py-2.5 font-display text-xs font-bold text-white shadow-sm hover:bg-sky-700 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
-              >
-                <Calculator className="h-4 w-4" />
-                <span>Calculate Your Milestone Budget</span>
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 font-display text-xs font-semibold text-slate-800 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-              >
-                <span>Initiate Consultation</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5 dark:border-slate-800/80 dark:bg-slate-900/50">
+                <Clock className="h-6 w-6 text-sky-600 dark:text-sky-400" />
+                <h4 className="mt-3 font-display text-base font-bold text-slate-900 dark:text-white">
+                  Fixed Fee SOW
+                </h4>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                  Every project has an agreed scope of work with zero unexpected surprise billing.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5 dark:border-slate-800/80 dark:bg-slate-900/50">
+                <Zap className="h-6 w-6 text-sky-600 dark:text-sky-400" />
+                <h4 className="mt-3 font-display text-base font-bold text-slate-900 dark:text-white">
+                  &lt; 2-Hour Response
+                </h4>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                  Dedicated WhatsApp and phone access directly to lead engineers.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5 dark:border-slate-800/80 dark:bg-slate-900/50">
+                <ShieldCheck className="h-6 w-6 text-sky-600 dark:text-sky-400" />
+                <h4 className="mt-3 font-display text-base font-bold text-slate-900 dark:text-white">
+                  30-Day Hypercare
+                </h4>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                  Immediate bug resolution and performance monitoring included free after go-live.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6 dark:border-slate-800">
+              <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                Ready to review a structured proposal for your system?
+              </span>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/estimate"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2 font-display text-xs font-bold text-white transition-colors hover:bg-sky-700 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+                >
+                  <Calculator className="h-3.5 w-3.5" />
+                  <span>Build Instant Estimate</span>
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2 font-display text-xs font-semibold text-slate-800 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                >
+                  <MessageCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span>Schedule Consultation</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

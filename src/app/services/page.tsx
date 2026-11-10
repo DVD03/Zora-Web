@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FloatingWhatsAppButton from '@/components/FloatingWhatsAppButton';
 import PageHeader from '@/components/PageHeader';
+import ServicesBentoGrid from '@/components/ServicesBentoGrid';
 import { INITIAL_SERVICES } from '@/lib/seedData';
 import {
   Globe,
@@ -48,160 +49,175 @@ export default function ServicesPage() {
         breadcrumbs={[{ label: 'Services' }]}
       />
 
-      {/* Services Divisions */}
-      <section className="py-10 sm:py-16 lg:py-20">
+      {/* Interactive 3D Bento Grid with Tech Stack Card Flip */}
+      <section className="relative z-10 -mt-6">
+        <ServicesBentoGrid services={INITIAL_SERVICES} />
+      </section>
+
+      {/* Deep-Dive Service Specifications (Matte Architectural View) */}
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Division Filter Bar */}
-          <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4 dark:border-slate-800">
-            <span className="mr-2 font-mono text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Filter:
-            </span>
-            <button
-              type="button"
-              onClick={() => setActiveCategory('all')}
-              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-colors ${
-                activeCategory === 'all'
-                  ? 'bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950'
-                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800'
-              }`}
-            >
-              All Services ({INITIAL_SERVICES.length})
-            </button>
-            {INITIAL_SERVICES.map((srv) => (
+          <div className="mb-10 flex flex-col items-start justify-between gap-4 border-b border-slate-200 pb-5 md:flex-row md:items-end dark:border-slate-800">
+            <div>
+              <span className="font-mono text-xs font-semibold tracking-wider text-sky-600 dark:text-sky-400 uppercase">
+                Technical Specifications &amp; Deliverables
+              </span>
+              <h2 className="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-white">
+                Detailed Scope of Delivery
+              </h2>
+            </div>
+
+            {/* Category Filter */}
+            <div className="flex flex-wrap items-center gap-1.5">
               <button
-                key={srv.slug}
                 type="button"
-                onClick={() => setActiveCategory(srv.slug)}
+                onClick={() => setActiveCategory('all')}
                 className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  activeCategory === srv.slug
+                  activeCategory === 'all'
                     ? 'bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950'
-                    : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800'
+                    : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800'
                 }`}
               >
-                {srv.title}
+                All Services
               </button>
-            ))}
+              {INITIAL_SERVICES.map((s) => (
+                <button
+                  key={s.slug}
+                  type="button"
+                  onClick={() => setActiveCategory(s.slug)}
+                  className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-colors ${
+                    activeCategory === s.slug
+                      ? 'bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950'
+                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800'
+                  }`}
+                >
+                  {s.title.split(' ')[0]}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Service Cards Grid (Matte Finish) */}
-          <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
-            {filteredServices.map((service, idx) => {
+          <div className="space-y-8">
+            {filteredServices.map((service, index) => {
               const Icon = ICON_MAP[service.iconName] || Globe;
               return (
                 <div
                   key={service._id}
-                  className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 lg:p-8 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
+                  id={service.slug}
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-matte-sm transition-all hover:border-slate-300 dark:border-slate-800 dark:bg-[#0B101B] dark:hover:border-slate-700 dark:shadow-matte-dark sm:p-8 lg:p-10"
                 >
-                  <div>
-                    {/* Header: Icon & Timeline Pill */}
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-sky-600 dark:border-slate-700 dark:bg-slate-800 dark:text-sky-400">
-                        <Icon className="h-6 w-6" />
-                      </div>
-                      <div className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 font-mono text-xs font-medium text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">
-                        <Clock className="h-3 w-3 text-amber-500" />
-                        <span>Est: {service.startingTimeline}</span>
-                      </div>
-                    </div>
-
-                    {/* Title & Tagline */}
-                    <h3 className="mt-5 font-display text-2xl font-bold text-slate-900 dark:text-white">
-                      {service.title}
-                    </h3>
-                    <p className="mt-1 font-sans text-sm font-semibold text-sky-600 dark:text-sky-400">
-                      {service.tagline}
-                    </p>
-
-                    <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-                      {service.description}
-                    </p>
-
-                    {/* Deliverables Checklist Division */}
-                    <div className="mt-6 border-t border-slate-100 pt-5 dark:border-slate-800/80">
-                      <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-slate-200 mb-3">
-                        Key Deliverables Included:
-                      </h4>
-                      <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                        {service.deliverables.map((item, dIdx) => (
-                          <li
-                            key={dIdx}
-                            className="flex items-start gap-2 text-xs leading-snug text-slate-700 dark:text-slate-300"
-                          >
-                            <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Tech Stack Division */}
-                    <div className="mt-6 border-t border-slate-100 pt-4 dark:border-slate-800/80">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="font-mono text-[11px] font-semibold text-slate-500 dark:text-slate-400 mr-1">
-                          Stack:
-                        </span>
-                        {service.techStackUsed.map((tech) => (
-                          <span
-                            key={tech}
-                            className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
-                          >
-                            {tech}
+                  <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+                    <div className="lg:col-span-5">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-500/20 bg-sky-500/10 text-sky-600 dark:text-sky-400">
+                          <Icon className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <span className="font-mono text-xs font-bold text-slate-500 dark:text-slate-400">
+                            SPEC 0{index + 1}
                           </span>
-                        ))}
+                          <h3 className="font-display text-xl font-bold text-slate-900 sm:text-2xl dark:text-white">
+                            {service.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <p className="mt-4 font-sans text-sm font-semibold text-sky-600 dark:text-sky-400">
+                        {service.tagline}
+                      </p>
+
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                        {service.description}
+                      </p>
+
+                      <div className="mt-6 flex flex-wrap items-center gap-3">
+                        <div className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 font-mono text-xs font-bold text-slate-800 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
+                          <Clock className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400" />
+                          <span>{service.startingTimeline}</span>
+                        </div>
+                        <div className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 font-mono text-xs font-bold text-slate-800 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
+                          <span>Starting: {service.packagePrice}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Actions Division */}
-                  <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-100 pt-5 dark:border-slate-800">
-                    <Link
-                      href="/estimate"
-                      className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-sky-600 transition-colors hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
-                    >
-                      <Calculator className="h-3.5 w-3.5" />
-                      <span>Estimate Cost for {service.title}</span>
-                      <ArrowRight className="h-3 w-3" />
-                    </Link>
+                    <div className="space-y-6 lg:col-span-7 lg:border-l lg:border-slate-200 lg:pl-8 dark:lg:border-slate-800">
+                      <div>
+                        <h4 className="font-mono text-xs font-bold tracking-wider text-slate-900 uppercase dark:text-slate-200">
+                          Production Deliverables
+                        </h4>
+                        <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                          {service.deliverables.map((item) => (
+                            <div
+                              key={item}
+                              className="flex items-start gap-2.5 rounded-xl border border-slate-100 bg-slate-50/70 p-3 text-xs text-slate-700 dark:border-slate-800/80 dark:bg-slate-900/60 dark:text-slate-300"
+                            >
+                              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-sky-600 dark:text-sky-400" />
+                              <span className="leading-snug">{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
 
-                    <Link
-                      href="/contact"
-                      className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 font-display text-xs font-semibold text-white shadow-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-white"
-                    >
-                      <span>Inquire Now</span>
-                      <ArrowRight className="h-3 w-3" />
-                    </Link>
+                      <div>
+                        <h4 className="font-mono text-xs font-bold tracking-wider text-slate-900 uppercase dark:text-slate-200">
+                          Supported Technology Stack
+                        </h4>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {service.techStackUsed.map((tech) => (
+                            <span
+                              key={tech}
+                              className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 font-mono text-[11px] font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-3 pt-2">
+                        <Link
+                          href={`/estimate`}
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 px-4 py-2 font-display text-xs font-bold text-white transition-colors hover:bg-sky-700 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+                        >
+                          <Calculator className="h-3.5 w-3.5" />
+                          <span>Estimate {service.title} Cost</span>
+                        </Link>
+                        <Link
+                          href="/contact"
+                          className="inline-flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2 font-display text-xs font-semibold text-slate-800 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                        >
+                          <MessageCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                          <span>Inquire via WhatsApp</span>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
+        </div>
+      </section>
 
-          {/* Bottom Action Division */}
-          <div className="mt-12 sm:mt-16 rounded-2xl border border-slate-200 bg-slate-100/70 p-6 sm:p-10 lg:p-12 text-center dark:border-slate-800 dark:bg-[#0C121E]">
-            <h3 className="font-display text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
-              Need a Custom Solution tailored specifically to your workflow?
+      {/* Bottom Conversion Strip */}
+      <section className="border-t border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-[#0B101B]">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 text-center sm:px-6 md:flex-row md:text-left lg:px-8">
+          <div>
+            <h3 className="font-display text-xl font-bold text-slate-900 sm:text-2xl dark:text-white">
+              Need a Custom Cross-Functional Architecture?
             </h3>
-            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-              Speak directly with our technical founders. We analyze your requirements and provide an
-              unbiased technical architectural proposal with a transparent timeline.
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+              Combine web development, custom software, and marketing into a single managed package.
             </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/estimate"
-                className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-5 py-2.5 font-display text-xs font-bold text-white shadow-sm hover:bg-sky-700 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
-              >
-                <Calculator className="h-4 w-4" />
-                <span>Open Quotation Calculator</span>
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 font-display text-xs font-semibold text-slate-800 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
-              >
-                <MessageCircle className="h-4 w-4 text-emerald-500" />
-                <span>Contact via WhatsApp</span>
-              </Link>
-            </div>
           </div>
+          <Link
+            href="/contact"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-sky-600 px-6 py-3 font-display text-xs font-bold text-white shadow-sm transition-colors hover:bg-sky-700 dark:bg-sky-500 dark:text-slate-950 dark:hover:bg-sky-400"
+          >
+            <span>Book Founder Architecture Call</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 

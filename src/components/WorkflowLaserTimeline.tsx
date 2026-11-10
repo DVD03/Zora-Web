@@ -82,7 +82,7 @@ export default function WorkflowLaserTimeline() {
         <div className="flex flex-col items-center text-center">
           <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
             From Concept to{' '}
-            <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
+            <span className="text-sky-400">
               Market Leadership
             </span>
           </h2>
@@ -102,7 +102,7 @@ export default function WorkflowLaserTimeline() {
                 scaleX: laserScaleX,
                 transformOrigin: 'left center',
               }}
-              className="gpu-accelerated h-full w-full bg-gradient-to-r from-white via-[#00F0FF] to-amber-400"
+              className="gpu-accelerated h-full w-full bg-sky-400"
             />
           </div>
 

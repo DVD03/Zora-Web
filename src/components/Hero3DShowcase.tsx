@@ -108,7 +108,7 @@ export default function Hero3DShowcase() {
             className="mt-6 max-w-5xl font-display text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl lg:leading-[1.08]"
           >
             Turn Your Ideas into{' '}
-            <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
+            <span className="text-sky-400">
               Digital Reality
             </span>
           </motion.h1>

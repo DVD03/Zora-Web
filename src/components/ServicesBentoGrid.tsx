@@ -224,7 +224,7 @@ export default function ServicesBentoGrid({
           <div>
             <h2 className="font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
               Our Services — Built to{' '}
-              <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
+              <span className="text-sky-400">
                 Grow Your Business
               </span>
             </h2>
@@ -476,7 +476,7 @@ export default function ServicesBentoGrid({
             <div>
               <h3 className="font-display text-2xl font-extrabold text-white sm:text-4xl">
                 Social Media Handling &amp;{' '}
-                <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
+                <span className="text-sky-400">
                   Brand Growth Packages
                 </span>
               </h3>

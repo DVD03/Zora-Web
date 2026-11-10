@@ -98,7 +98,7 @@ export default function PortfolioShowcase({
             <div className="relative z-10 text-center">
               <h2 className="font-portal text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
                 Projects We Made for{' '}
-                <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
+                <span className="text-sky-400">
                   Our Clients
                 </span>
               </h2>
@@ -338,7 +338,7 @@ export default function PortfolioShowcase({
           <div>
             <h2 className="font-portal text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
               Projects We Made for{' '}
-              <span className="bg-gradient-to-r from-white via-[#00F0FF] to-amber-300 bg-clip-text text-transparent">
+              <span className="text-sky-400">
                 Our Clients
               </span>
             </h2>
