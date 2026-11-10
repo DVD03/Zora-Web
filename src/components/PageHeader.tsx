@@ -18,10 +18,10 @@ export default function PageHeader({
   breadcrumbs,
 }: PageHeaderProps) {
   return (
-    <div className="relative border-b border-slate-200 bg-white pt-28 pb-12 transition-colors dark:border-slate-800 dark:bg-[#0B101B]">
+    <div className="relative border-b border-slate-200 bg-white pt-24 pb-8 transition-colors dark:border-slate-800 dark:bg-[#0B101B] sm:pt-28 sm:pb-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
-        <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+        <nav aria-label="Breadcrumb" className="mb-3.5 flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:gap-2 dark:text-slate-400">
           <Link
             href="/"
             className="flex items-center gap-1 transition-colors hover:text-sky-600 dark:hover:text-sky-400"
@@ -54,7 +54,7 @@ export default function PageHeader({
         )}
 
         {/* Title */}
-        <h1 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
+        <h1 className="mt-3 font-display text-2xl font-extrabold tracking-tight text-slate-900 sm:mt-4 sm:text-4xl lg:text-5xl dark:text-white">
           {title}{' '}
           {titleHighlight && (
             <span className="text-sky-600 dark:text-sky-400">{titleHighlight}</span>
@@ -62,7 +62,7 @@ export default function PageHeader({
         </h1>
 
         {/* Description */}
-        <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300">
+        <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 sm:mt-4 sm:text-base lg:text-lg dark:text-slate-300">
           {description}
         </p>
       </div>

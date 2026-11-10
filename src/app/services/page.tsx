@@ -49,17 +49,17 @@ export default function ServicesPage() {
       />
 
       {/* Services Divisions */}
-      <section className="py-14 sm:py-20">
+      <section className="py-10 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Division Filter Bar */}
-          <div className="mb-10 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-5 dark:border-slate-800">
+          <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4 dark:border-slate-800">
             <span className="mr-2 font-mono text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Filter by Service:
+              Filter:
             </span>
             <button
               type="button"
               onClick={() => setActiveCategory('all')}
-              className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+              className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-colors ${
                 activeCategory === 'all'
                   ? 'bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950'
                   : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800'
@@ -72,7 +72,7 @@ export default function ServicesPage() {
                 key={srv.slug}
                 type="button"
                 onClick={() => setActiveCategory(srv.slug)}
-                className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-colors ${
                   activeCategory === srv.slug
                     ? 'bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950'
                     : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800'
@@ -84,13 +84,13 @@ export default function ServicesPage() {
           </div>
 
           {/* Service Cards Grid (Matte Finish) */}
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2">
             {filteredServices.map((service, idx) => {
               const Icon = ICON_MAP[service.iconName] || Globe;
               return (
                 <div
                   key={service._id}
-                  className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
+                  className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 lg:p-8 shadow-matte-sm transition-all hover:border-slate-300 hover:shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:hover:border-slate-700 dark:shadow-matte-dark"
                 >
                   <div>
                     {/* Header: Icon & Timeline Pill */}
@@ -153,10 +153,10 @@ export default function ServicesPage() {
                   </div>
 
                   {/* Actions Division */}
-                  <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-5 dark:border-slate-800">
+                  <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-100 pt-5 dark:border-slate-800">
                     <Link
-                      href={`/estimate`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-600 transition-colors hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
+                      href="/estimate"
+                      className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-sky-600 transition-colors hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300"
                     >
                       <Calculator className="h-3.5 w-3.5" />
                       <span>Estimate Cost for {service.title}</span>
@@ -165,7 +165,7 @@ export default function ServicesPage() {
 
                     <Link
                       href="/contact"
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 font-display text-xs font-semibold text-white shadow-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-white"
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 px-3.5 py-2 font-display text-xs font-semibold text-white shadow-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-950 dark:hover:bg-white"
                     >
                       <span>Inquire Now</span>
                       <ArrowRight className="h-3 w-3" />
@@ -177,7 +177,7 @@ export default function ServicesPage() {
           </div>
 
           {/* Bottom Action Division */}
-          <div className="mt-16 rounded-2xl border border-slate-200 bg-slate-100/70 p-8 text-center sm:p-12 dark:border-slate-800 dark:bg-[#0C121E]">
+          <div className="mt-12 sm:mt-16 rounded-2xl border border-slate-200 bg-slate-100/70 p-6 sm:p-10 lg:p-12 text-center dark:border-slate-800 dark:bg-[#0C121E]">
             <h3 className="font-display text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl">
               Need a Custom Solution tailored specifically to your workflow?
             </h3>

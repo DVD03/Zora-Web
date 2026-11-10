@@ -366,9 +366,9 @@ export default function QuotationBuilder() {
         {/* Split-Screen 2-Column Layout */}
         <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-start">
           {/* LEFT COLUMN (7 Cols): Multi-Step Configurator */}
-          <div className="space-y-8 lg:col-span-7">
+          <div className="space-y-6 sm:space-y-8 lg:col-span-7">
             {/* STEP 1: Select Primary Service Type */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-7 lg:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
               <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                 <Layers className="h-4 w-4" />
                 <span>Step 01 • Select Primary System Scope</span>
@@ -398,7 +398,7 @@ export default function QuotationBuilder() {
             </div>
 
             {/* STEP 2: System Development, Pages Slider, Add-ons & Hosting */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark space-y-6">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-7 lg:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark space-y-6">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                   <Sliders className="h-4 w-4" />
@@ -547,7 +547,7 @@ export default function QuotationBuilder() {
             </div>
 
             {/* STEP 3: Client Details Form */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-7 lg:p-8 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
               <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                 <User className="h-4 w-4" />
                 <span>Step 03 • Contact Details for Official Quotation PDF</span>
@@ -564,7 +564,7 @@ export default function QuotationBuilder() {
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder="e.g. Kasun Silva"
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                   />
                 </div>
 
@@ -577,7 +577,7 @@ export default function QuotationBuilder() {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     placeholder="e.g. Ceylon Logistics"
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                   />
                 </div>
 
@@ -591,7 +591,7 @@ export default function QuotationBuilder() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="kasun@example.com"
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                   />
                 </div>
 
@@ -605,7 +605,7 @@ export default function QuotationBuilder() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="e.g. +94 77 123 4567"
-                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
+                    className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                   />
                 </div>
               </div>
@@ -620,7 +620,7 @@ export default function QuotationBuilder() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Any specific integrations, third-party APIs, or deadlines..."
-                  className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
+                  className="mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:bg-white focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-sky-400"
                 />
               </div>
             </div>
@@ -628,7 +628,7 @@ export default function QuotationBuilder() {
 
           {/* RIGHT COLUMN (5 Cols): Sticky Receipt Summary */}
           <div className="lg:sticky lg:top-24 lg:col-span-5">
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-6 lg:p-7 shadow-matte-md dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark">
               <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
                 <div>
                   <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">

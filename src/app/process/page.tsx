@@ -123,7 +123,7 @@ export default function ProcessPage() {
             {steps.map((step, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-10 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark"
+                className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 lg:p-10 shadow-matte-sm dark:border-slate-800 dark:bg-[#0F172A] dark:shadow-matte-dark"
               >
                 <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
                   <div>
@@ -135,7 +135,7 @@ export default function ProcessPage() {
                         {step.badge}
                       </span>
                     </div>
-                    <h3 className="mt-2 font-display text-2xl font-bold text-slate-900 dark:text-white">
+                    <h3 className="mt-2 font-display text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                       {step.title}
                     </h3>
                     <p className="mt-1 font-sans text-sm font-semibold text-slate-700 dark:text-slate-300">

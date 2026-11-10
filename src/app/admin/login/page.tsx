@@ -58,22 +58,20 @@ export default function AdminLoginPage() {
           <span>Return to Zora Solutions Website</span>
         </Link>
 
-        <div className="rounded-3xl border border-white/25 bg-[#071022] p-8 shadow-2xl">
+        <div className="rounded-3xl border border-slate-800 bg-[#0B101B] p-8 shadow-matte-dark">
           <div className="flex flex-col items-center text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/30 bg-white/10 p-2.5 shadow-lg">
-              <img
-                src="/assets/logo.png"
-                alt="Zora Solutions Logo"
-                className="h-full w-full object-contain"
-              />
-            </div>
+            <img
+              src="/assets/logo.png"
+              alt="Zora Solutions Logo"
+              className="h-16 w-16 object-contain"
+            />
 
-            <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-amber-400/40 bg-amber-400/10 px-3.5 py-1 font-mono text-[11px] font-bold text-amber-300">
+            <div className="mt-4 inline-flex items-center gap-1.5 rounded-md bg-amber-500/10 px-2.5 py-1 font-mono text-[11px] font-semibold text-amber-400">
               <ShieldCheck className="h-3.5 w-3.5" />
               <span>FOUNDER ADMIN PORTAL</span>
             </div>
 
-            <h1 className="mt-3 font-display text-2xl font-extrabold text-white">
+            <h1 className="mt-3 font-display text-2xl font-bold text-white">
               Zora Solutions Admin
             </h1>
             <p className="mt-1 text-xs text-slate-300">

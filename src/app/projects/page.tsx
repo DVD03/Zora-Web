@@ -48,19 +48,19 @@ export default function ProjectsPage() {
       />
 
       {/* Projects Showcase */}
-      <section className="py-14 sm:py-20">
+      <section className="py-10 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Category Filter Pills */}
-          <div className="mb-10 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-5 dark:border-slate-800">
+          <div className="mb-8 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-4 dark:border-slate-800">
             <span className="mr-2 font-mono text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-              Filter by Category:
+              Filter:
             </span>
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                className={`rounded-xl px-3 py-1.5 text-xs font-semibold transition-colors ${
                   selectedCategory === cat
                     ? 'bg-sky-600 text-white dark:bg-sky-500 dark:text-slate-950'
                     : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:bg-slate-800'
@@ -72,7 +72,7 @@ export default function ProjectsPage() {
           </div>
 
           {/* Projects Grid (Matte Finish) */}
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project) => (
               <div
                 key={project._id}
@@ -182,12 +182,12 @@ export default function ProjectsPage() {
 
       {/* Case Study Detail Modal (Matte Finish) */}
       {activeProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-          <div className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-matte-lg dark:border-slate-800 dark:bg-[#0F172A]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-sm">
+          <div className="relative max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl border border-slate-200 bg-white p-5 sm:p-8 shadow-matte-lg dark:border-slate-800 dark:bg-[#0F172A]">
             <button
               type="button"
               onClick={() => setActiveProject(null)}
-              className="absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
             >
               <X className="h-4 w-4" />
             </button>

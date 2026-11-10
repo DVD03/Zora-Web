@@ -52,9 +52,9 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 pt-3.5 sm:px-6 lg:px-8">
+    <header className="fixed top-0 left-0 right-0 z-50 px-2.5 pt-2.5 sm:px-6 sm:pt-3.5 lg:px-8">
       <nav
-        className={`mx-auto flex max-w-7xl items-center justify-between rounded-2xl border px-4 py-2.5 transition-all duration-200 sm:px-6 ${
+        className={`mx-auto flex max-w-7xl items-center justify-between rounded-2xl border px-3 py-2 transition-all duration-200 sm:px-6 sm:py-2.5 ${
           isScrolled
             ? 'border-slate-200/90 bg-white/95 shadow-matte-md dark:border-slate-800/90 dark:bg-[#0C121E]/95 dark:shadow-matte-dark backdrop-blur-md'
             : 'border-slate-200/60 bg-white/80 dark:border-slate-800/60 dark:bg-[#0B101B]/85 backdrop-blur-sm'
@@ -63,11 +63,11 @@ export default function Navbar() {
         {/* Brand Logo with Dynamic Scroll-Fill Indicator */}
         <Link
           href="/"
-          className="group flex items-center gap-3 py-1 transition-opacity hover:opacity-90"
+          className="group flex min-w-0 items-center gap-2 sm:gap-3 py-0.5 transition-opacity hover:opacity-90"
           title={`Zora Solutions • ${Math.round(scrollProgress * 100)}% Scrolled`}
         >
           {/* Scroll-Driven Filling Logo */}
-          <div className="relative h-10 w-10 sm:h-11 sm:w-11 shrink-0 select-none">
+          <div className="relative h-9 w-9 sm:h-11 sm:w-11 shrink-0 select-none">
             {/* Background Base Muted Logo (Visible at 0% scroll) */}
             <img
               src="/assets/logo.png"
@@ -90,11 +90,11 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <span className="font-display text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <div className="flex min-w-0 flex-col">
+            <span className="truncate font-display text-base font-bold tracking-tight text-slate-900 sm:text-xl dark:text-white">
               Zora Solutions
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400 font-medium">
+            <span className="truncate font-mono text-[9px] uppercase tracking-wider text-slate-500 sm:text-[10px] sm:tracking-[0.16em] dark:text-slate-400 font-medium">
               Crafting Digital Solutions
             </span>
           </div>

@@ -273,15 +273,13 @@ export default function AdminDashboardPage() {
       <header className="border-b border-white/15 bg-[#071022] px-4 py-4 sm:px-8">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/30 bg-white/10 p-1.5">
-              <img src="/assets/logo.png" alt="Zora Logo" className="h-full w-full object-contain" />
-            </div>
+            <img src="/assets/logo.png" alt="Zora Logo" className="h-10 w-10 object-contain" />
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-display text-lg font-extrabold text-white">
+                <h1 className="font-display text-lg font-bold text-white">
                   Zora Solutions — Founder Control Center
                 </h1>
-                <span className="rounded-full bg-amber-400 px-2.5 py-0.5 font-mono text-[10px] font-extrabold text-[#030712]">
+                <span className="rounded-md bg-amber-400 px-2 py-0.5 font-mono text-[10px] font-bold text-[#030712]">
                   ADMIN ACTIVE
                 </span>
               </div>
