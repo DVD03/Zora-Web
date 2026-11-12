@@ -7,6 +7,12 @@ export default function PreloaderLogo() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    // Skip preloader for search engine bots (Googlebot, Bingbot, etc.) for instant LCP & indexing
+    const isBot =
+      typeof navigator !== 'undefined' &&
+      /bot|googlebot|crawler|spider|robot|crawling|lighthouse/i.test(navigator.userAgent);
+    if (isBot) return;
+
     // Only run on the very first visit in a session so subsequent visits are instant and zero-lag
     if (typeof window !== 'undefined' && sessionStorage.getItem('zora-visited')) {
       return;
